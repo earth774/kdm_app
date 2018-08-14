@@ -1,0 +1,181 @@
+<!--Panel 4 ข้อมูลผลผลิต-->
+<div ng-if="activeTab == 'tab4'" class="tab-pane fade " ng-class="{'in show active':activeTab == 'tab4'}" id="tab4" role="tabpanel">
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab4 == 'table'">
+        <div class="col-xs-12 col-xl-10" ng-init="funcGetFarmerProductionByID();">
+            <div>
+                <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab4 == 'table'" ng-click="switchPage('form', 'tab4')">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <table ui-jq="dataTable" ui-options="ajaxFarmerProductionOptions" class="table table-striped table-bordered table-responsive"
+                    cellspacing="0" width="100%" id="table_data_farmer_production">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผลผลิต</th>
+                            <th>ปริมาณผลผลิตที่คาดว่าจะได้รับ</th>
+                            <th>ปริมาณผลผลิตที่ได้รับจริง</th>
+                            <th>เงินที่คาดว่าจะได้</th>
+                            <th>เงินที่ได้รับจริงได้</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /TABLE -->
+
+    <!-- FORM -->
+    <div ng-if="page_tab4 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetProductInfo();funcGetFarmerCropInfo();funcGetCooperativeGenInfo();findUnit(product_info,FarmerProductionItem.product_info_id,'ผลผลิต');">
+        <form name="form_production">
+            <div class="row justify-content-md-center">
+                <div class="col-xs-12 col-xl-10">
+                    <!-- -->
+                    <div class="md-form" ng-init="funcGetFarmerCropInfo()">
+                        <select class="mdb-select colorful-select dropdown-primary" name="select_farmer_user_crop_gap" id="select_farmer_user_crop_gap"
+                            required ng-model="FarmerProductionItem.farmer_user_crop_id">
+                            <option value="" disabled>กรุณาเลือก</option>
+                            <option ng-repeat="farmer_crop in farmer_crop_info" value="{{farmer_crop.id}}" on-finish-render="ngRepeatFinished">{{farmer_crop.name}}</option>
+                        </select>
+                        <label>รอบการเพาะปลูก</label>
+                        <small class="red-text" ng-show="form_production.select_farmer_user_crop_gap.$error.required && hasSubmit">This field is required.</small>
+                    </div>
+                    <!--  -->
+
+                    <!-- start select 2 -->
+                    <!-- for set select value -->
+                    <!-- old code -->
+                    <div class="md-form" style="display: none;">
+                        <select class="mdb-select colorful-select dropdown-primary" name="select_product" id="select_product" ng-model="FarmerProductionItem.product_info_id"
+                            ng-change="findUnit(product_info,FarmerProductionItem.product_info_id,'ผลผลิต');" required>
+                            <option value="" disabled>กรุณาเลือก</option>
+                            <option ng-repeat="product in product_info" value="{{product.id}}" on-finish-render="ngRepeatFinished">{{product.name}}</option>
+                        </select>
+                        <label>ชื่อผลผลิต </label>
+                        <small class="red-text" ng-show="form_production.select_product.$error.required && hasSubmit">This field is required.</small>
+                    </div>
+                    <!-- old code -->
+
+                    <!-- for show select 2 -->
+                    <label style="color: #757575; font-size: 0.8rem;">ชื่อผลผลิต</label>
+                    <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                    <select class="mdb-select-2 colorful-select dropdown-primary" id="product_buying_selectoer">
+                        <option value="">กรุณาเลือก</option>
+                        <option ng-repeat="product in product_info" 
+                                value="{{product.id}}" 
+                                on-finish-render="ngRepeatFinished"
+                                ng-selected="product.id == FarmerProductionItem.product_info_id"
+                                >{{product.name}}</option>
+                    </select>
+                    <small class="red-text" ng-show="form_production.select_product.$error.required && hasSubmit">This field is required.</small>
+                    </div>
+                    <br>
+                    <script>
+                        $(document).ready(function() {  
+                            $('.mdb-select-2').select2();
+                            $(".select2").css("width","100%");
+                            $(".select2-selection__rendered").css("color","#757575");
+                            $(".select2-selection__rendered").css("color","#757575");
+                            
+                            $( "#product_buying_selectoer" ).change(function() {
+                                var product_id = $(this).val().toString()
+                                $("#select_product").val(product_id).change();
+
+                                $("#product_info_explanation").val("").change();
+                            });
+                        });
+                    </script>
+                    <!-- end select 2 -->
+
+                    <div class="md-form" ng-show="FarmerProductionItem.product_info_id == '0'">
+                        <input type="text"  name="product_info_explanation" 
+                                            id="product_info_explanation"
+                                            class="form-control" 
+                                            ng-model="FarmerProductionItem.product_info_explanation" 
+                                            value="{{ FarmerProductionItem.product_info_explanation }}"
+                                            ng-required="FarmerProductionItem.product_info_id == 0">
+                        <label for="product_info_explanation" ng-class="{'active': FarmerProductionItem.product_info_explanation}">
+                            ระบุชื่อผลผลิต
+                        </label>
+                        <small class="red-text" ng-show="form_production.product_info_explanation.$error.required && hasSubmit">This field is required.</small>
+                    </div>
+
+                    <!--  -->
+                    <div class="md-form">
+                        <select class="mdb-select colorful-select dropdown-primary" name="select_cooperative" id="select_cooperative" required ng-model="FarmerProductionItem.cooperative_gen_id">
+                            <option value="" disabled>กรุณาเลือก</option>
+                            <option value="0">ไม่ระบุ</option>
+                            <option ng-repeat="cooperative in cooperative_info" value="{{cooperative.id}}" on-finish-render="ngRepeatFinished">{{cooperative.president_name}}</option>
+                        </select>
+                        <label>รุ่นสหกรณ์</label>
+                        <small class="red-text" ng-show="FarmerProductionItem.cooperative_gen_id == null && hasSubmit">This field is required.</small>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control" ng-model="FarmerProductionItem.exact_qty">
+                        <label ng-class="{'active':FarmerProductionItem.exact_qty}">ปริมาณผลผลิตที่ได้รับ ({{unit_product}})</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control" ng-model="FarmerProductionItem.expect_qty">
+                        <label ng-class="{'active':FarmerProductionItem.expect_qty}">ปริมาณผลผลิตที่คาดหวัง</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control" ng-model="FarmerProductionItem.expect_outcome">
+                        <label ng-class="{'active':FarmerProductionItem.expect_outcome}">เงินที่คาดว่าจะได้จากผลผลิต</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control" ng-model="FarmerProductionItem.exact_outcome">
+                        <label ng-class="{'active':FarmerProductionItem.exact_outcome}">เงินที่ได้รับจริงจากผลผลิต</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control " ng-model="FarmerProductionItem.expect_revenue">
+                        <label ng-class="{'active':FarmerProductionItem.expect_revenue}">กำไรที่คาดหวัง</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control " ng-model="FarmerProductionItem.exact_revenue">
+                        <label ng-class="{'active':FarmerProductionItem.exact_revenue}">กำไรที่ได้รับจริง </label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control datepicker" id="expect_datetime" ng-model="FarmerProductionItem.expect_datetime">
+                        <label for="expect_datetime" ng-class="{'active' :FarmerProductionItem.expect_datetime}">วันเวลาที่คาดว่าจะได้รับผลผลิต</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control datepicker" id="exact_datetime" ng-model="FarmerProductionItem.exact_datetime">
+                        <label for="exact_datetime" ng-class="{'active' :FarmerProductionItem.exact_datetime}">วันเวลาที่ได้รับผลผลิตจริง</label>
+                    </div>
+                    <!--  -->
+                    <div class="md-form">
+                        <input type="text" class="form-control datepicker" id="datetime_bestBefore" ng-model="FarmerProductionItem.datetime_bestBefore">
+                        <label for="exact_datetime" ng-class="{'active' :FarmerProductionItem.datetime_bestBefore}">ควรบริโภคก่อน</label>
+                    </div>
+                    <!--  -->
+                    <div class="text-center">
+                        <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table', 'tab4');">
+                            <i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                        <button ng-if="!FarmerProductionItem.id" ng-disabled="!!form_production.$error.required && hasSubmit" class="btn btn-success"
+                            ng-click="funcInsertFarmerProduction(!!form_production.$error.required);">
+                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                        <button ng-if="FarmerProductionItem.id" ng-disabled="!!form_production.$error.required && hasSubmit" class="btn btn-success"
+                            ng-click="funcUpdateFarmerProduction(!!form_production.$error.required);">
+                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                    </div>
+                </div>
+                <!-- /col-xs-12 col-xl-10 -->
+            </div>
+            <!-- /row -->
+        </form>
+    </div>
+    <!-- /FORM -->
+
+
+</div>
+<!--Panel 4-->

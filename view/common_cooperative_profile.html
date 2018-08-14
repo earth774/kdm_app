@@ -1,0 +1,55 @@
+<!--Panel 1 ข้อมูลส่วนตัว-->
+<div ng-if="activeTab=='tab1'" class="tab-pane fade " 
+    ng-class="{'in show active':activeTab=='tab1'}" 
+    ng-init="funcGetUserDataByID()" id="tab1" role="tabpanel" >
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab1 == 'table'" >
+      <div class="col-xs-12 col-xl-10">
+        <div class="md-form" >
+            <input type="text" class="form-control" ng-model="user_data.name" id="name">
+            <label for="name" ng-class="{'active':user_data.name}" >ชื่อสหกรณ์</label>
+        </div>
+        
+        <br/>
+        <!--   PROVINCE DISTRICT SUBDISTRICT -->
+        <div ng-include="'../view/common_address_select.html'"></div>
+        <!--  -->
+        
+        <div class="md-form">
+          <textarea class="md-textarea" ng-model="user_data.address" rows="2"></textarea>
+          <label ng-class="{'active':user_data.address}">ที่อยู่สหกรณ์</label>
+        </div>
+          
+        <div class="md-form" >
+            <input type="text" class="form-control" ng-model="user_data.president_name" id="company_type">
+            <label for="company_type" ng-class="{'active':user_data.president_name}" >ชื่อประธานสหกรณ์</label>
+        </div>
+          
+        <div class="md-form" >
+            <input type="text" class="form-control" ng-model="user_data.number_member" id="certificate">
+            <label for="certificate" ng-class="{'active':user_data.number_member}" >จำนวนสมาชิกสหกรณ์</label>
+        </div>
+
+        <div class="md-form">
+          <input type="text" class="form-control" ng-model="user_data.phone">
+          <label ng-class="{'active':user_data.phone}">เบอร์โทรศัพท์</label>
+        </div>
+        
+        <div class="md-form">
+          <input type="text" class="form-control" ng-model="user_data.email">
+          <label ng-class="{'active':user_data.email}">อีเมล์</label>
+        </div>
+
+        <!--  -->
+        <div class="text-center">
+          <button ng-show="!user_data.id" class="btn btn-success" ng-click="funcInsertUserData(user_data)"><i class="fa fa-save ml-1"></i> บันทึก</button>
+          <button ng-show="user_data.id" class="btn btn-success" ng-click="funcUpdateUserData(user_data)" title="บันทึกการแก้ไข"><i class="fa fa-save ml-1"></i> บันทึก</button>
+        </div>
+      </div>
+      <!-- /col-xs-12 col-xl-10 -->
+    </div>
+    <!-- /row -->
+    <!-- /TABLE -->
+
+</div>
+<!--/.Panel 1-->

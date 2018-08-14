@@ -1,0 +1,44 @@
+<!-- tabs-wrapper -->
+<div class="tabs-wrapper">
+    <ul class="nav classic-tabs tabs-cyan" role="tablist">
+      <li class="nav-item" >
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab1'}"  href="#tab1" role="tab"
+            ng-click="funcSwitchTab('tab1');clearData()">ข้อมูลส่วนตัว</a>
+      </li>
+
+      <li class="nav-item" >
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab_extra'}"  href="#tab_extra" role="tab"
+            ng-click="funcSwitchTab('tab_extra');clearData()">ข้อมูลการเพาะปลูกและการเพาะเลี้ยง</a>
+      </li>
+
+      <li class="nav-item" ng-if="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab2'}"  href="#tab2" role="tab"
+                    ng-click="funcSwitchTab('tab2');clearData()">ข้อมูลแปลงเพาะปลูก</a>
+      </li>
+      <li class="nav-item" ng-show="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab3'}"  href="#tab3" role="tab"
+                    ng-click="funcSwitchTab('tab3');clearData()">ข้อมูลรอบของการเพาะปลูก</a>
+      </li>
+      <li class="nav-item" ng-show="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab4'}"  href="#tab4" role="tab"
+                    ng-click="funcSwitchTab('tab4');clearData()">ข้อมูลผลผลิต</a>
+      </li>
+      <li class="nav-item" ng-show="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab5'}"  href="#tab5" role="tab"
+                    ng-click="funcSwitchTab('tab5');clearData()">ข้อมูลมาตรฐาน GAP</a>
+      </li>
+      <li class="nav-item" ng-show="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab6'}"  href="#tab6" role="tab"
+                    ng-click="funcSwitchTab('tab6');clearData()">ข้อมูลมาตรฐาน IFOAM</a>
+      </li>
+      <li class="nav-item" ng-if="user_role_id<=4">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab7'}"  href="#tab7" role="tab"
+                    ng-click="funcSwitchTab('tab7');clearData()">ข้อมูลมาตรฐานเกษตรนานาชาติ</a>
+      </li>
+      <!--li class="nav-item">
+          <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab8'}"  href="#tab8" role="tab"
+                    ng-click="funcSwitchTab('tab8');clearData()">ผู้ตรวจแปลง</a>
+      </li-->
+    </ul>
+</div>
+<!-- /tabs-wrapper -->

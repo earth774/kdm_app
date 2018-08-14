@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height" ng-app="KDM">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Agriconnect</title>
+
+    <!-- Font Awesome -->
+    <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design for Bootstrap -->
+    <link href="../assets/css/mdb.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+    <link href="../assets/css/mdbMain.css" rel="stylesheet">
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body class="fixed-sn indigo-skin" ng-controller="MenuCtrl">
+
+    <!--Double navigation-->
+
+    <div id="side_menu" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+    <main>
+        <!--div class="container-fluid mt-5"-->
+        <div class="row">
+
+            <!--Card Narrower Menu1-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="farmer_sme_menu">
+                <div class="card card-cascade text-center">
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/farmer_sme_menu.png" class="img-fluid" alt="">
+                        <a href="./farmer_sme_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text "> เกษตรกร</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+
+            <!--Card Narrower Menu4-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="wholesaler_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/wholesaler_menu.png" class="img-fluid" alt="">
+                        <a href="./wholesaler_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> พ่อค้าคนกลาง</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+
+            <!--Card Narrower Menu6-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="market_retailer_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/market_retailer_menu.png" class="img-fluid" alt="">
+                        <a href="./market_retailer_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> พ่อค้าตลาด/ห้าง</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu6-->
+
+            <!--Card Narrower Menu7-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="modern_trader_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/modern_trader_menu.png" class="img-fluid" alt="">
+                        <a href="./modern_trader_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ตลาด/ห้าง</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu7-->
+
+            <!--Card Narrower Menu8-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="consumer_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/consumer_menu.png" class="img-fluid" alt="">
+                        <a href="./consumer_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ผู้บริโภค</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu8-->
+
+            <!--Card Narrower Menu9-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="manufacturer_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/manufacturer_menu.png" class="img-fluid" alt="">
+                        <a href="./manufacturer_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ผู้ค้าแปรรูป</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu9-->
+
+            <!--Card Narrower Menu10-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="investor_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/investor_menu.png" class="img-fluid" alt="">
+                        <a href="./investor_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> นักลงทุน</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu10-->
+
+            <!--Card Narrower Menu11-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="importer_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/importer_menu.png" class="img-fluid" alt="">
+                        <a href="./importer_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ผู้นำเข้า</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu11-->
+
+            <!--Card Narrower Menu12-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="exporter_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/exporter_menu.png" class="img-fluid" alt="">
+                        <a href="./exporter_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ผู้ส่งออก</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu12-->
+
+            <!--Card Narrower Menu13-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="thai_customs_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/thai_customs_menu.png" class="img-fluid" alt="">
+                        <a href="./thai_customs_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ศุลกากร</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+            <!--/.Card Narrower Menu13-->
+
+            <!--Card Narrower Menu14-->
+            <div class="col-md-2 mb-2 d-flex align-items-stretch" ng-if="inspection_body_menu">
+                <div class="card card-cascade text-center">
+
+                    <!--Card image-->
+                    <div class="view overlay hm-white-slight center card-index">
+                        <img src="../assets/img/Icon_kaset/inspection_body_menu.png" class="img-fluid" alt="">
+                        <a href="./inspection_body_menu.html">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                    <!--/.Card image-->
+                    <!--Card content-->
+                    <div class="card-body">
+                        <h5 class="pink-text"> ผู้ตรวจสอบ</h5>
+                    </div>
+                    <!--/.Card content-->
+                </div>
+            </div>
+
+            <!--/.Card Narrower Menu15-->
+        </div>
+    </main>
+    <!--/.Double navigation-->
+
+    <!--Footer-->
+    <footer>
+    </footer>
+    <!--Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- jQuery -->
+    <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Popper -->
+    <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+    <!-- DataTable -->
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Angular -->
+    <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+    <!-- Plugins -->
+    <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+    <!-- ng-map -->
+    <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+    <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+    <!-- ng-file-upload -->
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+    <!-- App -->
+    <script type="text/javascript" src="../js/core/app.js"></script>
+    <script type="text/javascript" src="../js/core/util.js"></script>
+    <script type="text/javascript" src="../js/common/menu.js"></script>
+    <script type="text/javascript" src="../js/app/index.js"></script>
+
+    <script>
+        new WOW().init();
+    </script>
+</body>
+
+</html>

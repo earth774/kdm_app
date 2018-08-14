@@ -1,0 +1,124 @@
+<!--Panel 2 แปลงเพาะปลูก-->
+<div ng-if="activeTab == 'tab2'" class="tab-pane fade "
+     ng-class="{'in show active':activeTab == 'tab2'}"
+     id="tab2" role="tabpanel" >
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab2 == 'table'">
+        <div class="col-xs-12 col-xl-10" ng-init="funcGetCultivatedAreaByID();">
+            <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab2 == 'table'" ng-click="switchPage('form', 'tab2')"><i class="fa fa-plus"></i></a>
+            <table ui-jq="dataTable" ui-options="ajaxCultivatedAreaOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_cultivated_area">
+                <thead>
+                    <tr>
+                        <th width="15%">ชื่อแปลง</th>
+                        <th width="5%">หมายเลขโฉนด</th>
+                        <th width="5%">พื้นที่(ไร่)</th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- TABLE -->
+
+    <!-- FORM -->
+    <div ng-if="page_tab2 == 'form'" class="col-xs-12 col-xl-10" ng-init="getIrrigation_info()">
+        <form name="form_cultivated_area">
+
+        <div class="row justify-content-md-center">
+            <div class="col-xs-12 col-xl-10">
+                <div class="md-form">
+
+                    <input type="text" class="form-control" name="deed_name" id="deed_name" ng-model="CultivatedAreaItem.name" required>
+                    <label for="deed_name" ng-class="{'active':CultivatedAreaItem.name}">ชื่อแปลง</label>
+                    <small class="red-text" ng-show="form_cultivated_area.deed_name.$error.required && hasSubmit">This field is required.</small>
+                </div>
+                <!--  -->
+                <div class="md-form">
+
+                    <input type="text" id="deed_no" class="form-control" ng-model="CultivatedAreaItem.deed_no">
+                    <label for="deed_no" ng-class="{'active':CultivatedAreaItem.deed_no}">หมายเลขโฉนด</label>
+                </div>
+                <!--  -->
+
+                <div class="md-form" >
+                    <select class="mdb-select colorful-select dropdown-primary" name="select_cultivated_area" id="select_cultivated_area" ng-model="CultivatedAreaItem.irrigation_info_id" required>
+                        <option value="" disabled>กรุณาเลือก</option>
+                        <option value="{{irr.id}}" ng-repeat="irr in irrigation_info" on-finish-render="ngRepeatFinished">{{irr.name}}</option>
+                    </select>
+                    <label>แหล่งชลประทาน</label>
+                    <small class="red-text" ng-show="form_cultivated_area.select_cultivated_area.$error.required && hasSubmit">This field is required.</small>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" id="irrigation_info" class="form-control" ng-model="CultivatedAreaItem.area">
+                    <label for="irrigation_info" ng-class="{'active':CultivatedAreaItem.area}">พื้นที่ของแปลงเพาะปลูก (ไร่)</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" id="gps_lat" class="form-control" disabled ng-model="CultivatedAreaItem.gps_lat" ng-value="user_data.gps_lat" >
+                    <label for="gps_lat" class="active">ละติจูด</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" id="gps_long" class="form-control" disabled ng-model="CultivatedAreaItem.gps_long" ng-value="user_data.gps_long">
+                    <label for="gps_long" class="active">ลองติจูด</label>
+                </div>
+
+                <!--  -->
+                <div class="col-md-12 ">
+                    <!-- เพิ่มใหม่ -->
+                    <ng-map ng-if="!CultivatedAreaItem.id" zoom="15" center="[40.74, -74.18]" center='current-position' map-type-id="MapTypeId.ROADMAP">
+                        <marker position="current" position="{{[CultivatedAreaItem.gps_lat, CultivatedAreaItem.gps_long]}}" on-dragend="getCurrentlocation()" animation="DROP" draggable="true" animation="Animation.BOUNCE" centered="true"></marker>
+                    </ng-map>
+                    <!-- มีข้อมูลอยู่แล้ว -->
+                    <ng-map ng-if="CultivatedAreaItem.id" zoom="15" center="[{{CultivatedAreaItem.gps_lat}},{{CultivatedAreaItem.gps_long}}]"  map-type-id="MapTypeId.ROADMAP">
+                        <marker position="{{[CultivatedAreaItem.gps_lat, CultivatedAreaItem.gps_long]}}" on-dragend="getCurrentlocation()" animation="DROP" draggable="true" animation="Animation.BOUNCE" centered="true"></marker>
+                    </ng-map>
+                    <label>{{user_data.location_remark}}</label>
+                </div>
+                <div ng-if="upload_file_div" class="md-form m-0">
+                    <div class="file-field">
+                        <div class="btn btn-primary btn-sm">
+                            <span>เลือกไฟล์</span>
+                            <input type="file" ngf-multiple="false" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-select ng-model="CultivatedAreaItem.picFile" name="file" ngf-max-size="5MB">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <!-- <input class="file-path validate" type="text" placeholder="อัพโหลดแปลงเพาะปลูก"> -->
+                            <input class="file-path validate" type="text" placeholder="อัพโหลดภาพแปลงเพาะปลูก">
+                        </div>
+                    </div>
+                </div>
+                <div  ng-if="edit_file_div" class="md-form m-0">
+                    <div class="file-field">
+                        <a ng-href="{{base_url}}{{CultivatedAreaItem.upload_path}}" download class="btn-floating info-color mt-0" style="float: left;">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                        <a ng-click="handle_delete_file();" class="btn-floating danger-color mt-0" style="float: left;">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="{{CultivatedAreaItem.upload_filename}}">
+                        </div>
+                        <div class="col-md-6 p-0 mb-3">
+                            <img src="{{base_url}}{{CultivatedAreaItem.upload_path}}" class="img-fluid" alt="ไม่สามารถแสดงรูปได้" class="img-thumbnail">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table', 'tab2');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                    <button ng-if="!CultivatedAreaItem.id" ng-disabled="!!form_cultivated_area.$error.required && hasSubmit" class="btn btn-success" ng-click="funcInsertCultivatedArea(!!form_cultivated_area.$error.required);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                    <button ng-if="CultivatedAreaItem.id" ng-disabled="!!form_cultivated_area.$error.required && hasSubmit" class="btn btn-success" ng-click="funcUpdateCultivatedArea(!!form_cultivated_area.$error.required);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                </div>
+            </div>
+            <!-- /col-xs-12 col-xl-10 -->
+        </div>
+        <!-- /row -->
+        </form>
+    </div>
+    <!-- /FORM -->
+
+</div>
+<!--Panel 2-->

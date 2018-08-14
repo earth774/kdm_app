@@ -1,0 +1,276 @@
+<header>
+  <!-- Sidebar navigation -->
+  <ul id="slide-out" class="side-nav fixed sn-bg-3 custom-scrollbar">
+    <!-- Logo -->
+    <li class="logo-sn waves-light  waves-effect waves-light">
+      <div class="text-center">
+        <a class="pl-0" style="background: #56c0da40;">
+          <img id="MDB-logo" src="../assets/img/logo.png" alt="MDB Logo" style="width: 80px;">
+        </a>
+      </div>
+    </li>
+    <!--/. Logo -->
+    <!-- Side navigation links -->
+    <li>
+      <ul class="collapsible collapsible-accordion">
+
+        <li ng-show="index_menu">
+          <a href="./index.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> หน้าหลัก
+          </a>
+        </li>
+        <li>
+          <a href="./data_news.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ข่าวสาร
+          </a>
+        </li>
+        <li ng-show="data_report_chart">
+          <a href="./data_report_chart.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> รายงาน
+          </a>
+        </li>
+        <li>
+          <a href="./map_investment.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> แผนที่การลงทุน
+          </a>
+        </li>
+        <li ng-show="data_report">
+          <a href="./data_report.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ปัญหาที่ได้รับแจ้ง
+          </a>
+        </li>
+        <li ng-show="main_menu">
+          <a class="collapsible-header waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ข้อมูลหลัก
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </a>
+          <div class="collapsible-body">
+            <ul>
+              <li>
+                <a class="waves-effect" href="./master_data_resource.html">ข้อมูลพืช/สัตว์</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./master_data_product.html">ข้อมูลผลผลิต</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./master_data_cerificate_type.html">ประเภทใบรับรองทางการเกษตร</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./master_data_diseases_type.html">ข้อมูลโรค</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./master_data_weed_type.html">ข้อมูลศัตรูพืช</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./master_data_irrigation.html">ข้อมูลชลประทาน</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li ng-show="data_feeder_menu">
+          <a class="collapsible-header waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ข้อมูลจากระบบอื่น
+            <i class="fa fa-angle-down rotate-icon"></i>
+          </a>
+          <div class="collapsible-body">
+            <ul>
+              <li>
+                <a class="waves-effect" href="./data_feeder_weather.html">ข้อมูลภูมิอากาศ</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_soil.html">ข้อมูลสภาพดิน</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_irrigation.html">ข้อมูลคุณภาพน้ำ</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_plant_disease.html">ข้อมูลสัญญาณจากโรคพืช</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_regulation.html">ข้อมูลนโยบายจากภาครัฐบาล</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_international_price.html">ข้อมูลราคาสินค้าของต่างประเทศ</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_irrigation_data.html">ข้อมูลชลประทานจากแหล่งข้อมูลภายนอก</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_plant_diseases_country_data.html">ข้อมูล โรคพืช/สัตว์ ของประเทศคู่แข่ง</a>
+              </li>
+              <li>
+                <a class="waves-effect" href="./data_feeder_competitive_country_data.html">ข้อมูลประเทศคู่แข่งทางการค้า</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li ng-show="farmer_sme_menu">
+          <a href="./farmer_sme_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> เกษตรกร
+          </a>
+        </li>
+        <!--li ng-show="farmer_large_menu">
+                    <a href="./farmer_large_menu.html" class="waves-effect arrow-r" >
+                        <i class="fa fa-chevron-right"></i> เกษตรกรรายใหญ่
+                    </a>
+                </li>
+                <li ng-show="cooperative_menu">
+                    <a href="./cooperative_menu.html" class="waves-effect arrow-r" >
+                        <i class="fa fa-chevron-right"></i> สหกรณ์
+                    </a>
+                </li-->
+        <li ng-show="wholesaler_menu">
+          <a href="./wholesaler_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> พ่อค้าคนกลาง
+          </a>
+        </li>
+        <li ng-show="market_retailer_menu">
+          <a href="./market_retailer_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> พ่อค้าตลาด/ห้าง
+          </a>
+        </li>
+        <li ng-show="modern_trader_menu">
+          <a href="./modern_trader_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ตลาด/ห้าง
+          </a>
+        </li>
+        <li ng-show="consumer_menu">
+          <a href="./consumer_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ผู้บริโภค
+          </a>
+        </li>
+        <li ng-show="manufacturer_menu">
+          <a href="./manufacturer_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ผู้ค้าแปรรูป
+          </a>
+        </li>
+        <li ng-show="investor_menu">
+          <a href="./investor_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> นักลงทุน
+          </a>
+        </li>
+        <li ng-show="importer_menu">
+          <a href="./importer_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ผู้นำเข้า
+          </a>
+        </li>
+        <li ng-show="exporter_menu">
+          <a href="./exporter_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ผู้ส่งออก
+          </a>
+        </li>
+        <li ng-show="thai_customs_menu">
+          <a href="./thai_customs_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ศุลกากร
+          </a>
+        </li>
+        <li ng-show="inspection_body_menu">
+          <a href="./inspection_body_menu.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> ผู้ตรวจสอบ
+          </a>
+        </li>
+        <!--li ng-show="lender_menu">
+                    <a href="./lender_menu.html" class="waves-effect arrow-r" >
+                        <i class="fa fa-chevron-right"></i> ผู้ให้กู้
+                    </a>
+                </li-->
+        <li ng-show="user_management">
+          <a href="./account.html" class="waves-effect arrow-r">
+            <i class="fa fa-chevron-right"></i> กำหนดผู้ใช้งาน
+          </a>
+        </li>
+        <!--li ng-if="setting_menu">
+                    <a class="collapsible-header waves-effect arrow-r">
+                        <i class="fa fa-chevron-right"></i> กำหนดค่า<i class="fa fa-angle-down rotate-icon"></i>
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li ng-if="user_management"><a class="waves-effect" href="./account.html">กำหนดผู้ใช้งาน</a>
+                            </li>
+                            <li ng-if="user_type_management"><a class="waves-effect" href="./user_type_management.html">กำหนดประเภทผู้ใช้งาน</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li-->
+        <!--li ng-if="report_menu">
+                    <a class="waves-effect arrow-r">
+                        <i class="fa fa-chevron-right"></i> รายงาน
+                    </a>
+                </li>
+                <li ng-if="logout">
+                    <a class="waves-effect arrow-r" ng-click="Actionlogout();">
+                        <i class="fa fa-chevron-right"></i> ออกจากระบบ
+                    </a>
+                </li-->
+      </ul>
+    </li>
+    <div class="sidenav-bg mask-strong"></div>
+  </ul>
+  <!--/. Sidebar navigation -->
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+    <!-- SideNav slide-out button -->
+    <div class="float-left" ng-init="init_slide_button();">
+      <a href="#" data-activates="slide-out" class="button-collapse">
+        <i class="fa fa-bars"></i>
+        <p id="nav_menu_title" class="navbar-text" style="padding-left: 10px;">Agriconnect</p>
+      </a>
+    </div>
+    <!-- Breadcrumb-->
+    <!--div class="breadcrumb-dn mr-auto">
+            <p>KDM</p>
+            <p class="navbar-text">Logged in as</p>
+        </div-->
+    <ul class="nav navbar-nav nav-flex-icons ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="./profile.html">
+          <i class="fa fa-user"></i>
+          <span class="clearfix d-none d-sm-inline-block">ข้อมูลส่วนตัว</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./report_problem.html">
+          <i class="fa fa-bullhorn"></i>
+          <span class="clearfix d-none d-sm-inline-block">แจ้งปัญหา</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" ng-click="Actionlogout();">
+          <i class="fa fa-sign-out"></i>
+          <span class="clearfix d-none d-sm-inline-block">ออกจากระบบ</span>
+        </a>
+      </li>
+    </ul>
+
+  </nav>
+  <!-- /.Navbar -->
+
+  <!-- The Modal -->
+  <link rel="stylesheet" type="text/css" href="../assets/css/menu-modal.css">
+
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="title-font">โปรดเลือกประเภทผู้ใช้งาน</h2>
+        <span class="close" ng-click="close()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <label class="active">
+          <i class="fa fa-info-circle grey-text"></i> ประเภทผู้ใช้งาน</label>
+        <div class="row">
+          <div class="form-group col-6 col-lg-6" ng-repeat="userType_obj in userType">
+            <input class="checkUser" type="checkbox" id="{{userType_obj.id}}" ng-model="userType[$index].is_check">
+            <label style="width:200px;" for="{{userType_obj.id}}" ng-class="{true: 'disabled'}">{{userType_obj.name}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-font" ng-click="AddUserType()">Save</button>
+      </div>
+    </div>
+
+  </div>
+  <!-- / The Modal -->
+</header>

@@ -1,0 +1,51 @@
+<div class="modal fade" id="DataFeederDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลสัญญาณจากโรคพืช</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อพืช/สัตว์ : {{objDataFeederItem.resource}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปัจจัยบวกหรือลบต่อราคา : {{objDataFeederItem.price_factor}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ความรุนแรงของผลกระทบจากปัจจัย : {{objDataFeederItem.factor_effect_score}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เป็นการแทรกแซงราคาหรือไม่ : {{objDataFeederItem.is_intervention}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ราคาที่รัฐบาลแทรกแซง : {{objDataFeederItem.intervention_price}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วันที่เริ่มต้นการใช้นโยบาย : {{objDataFeederItem.start_regulation_datetime|limitTo:10:0}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วันที่สิ้นสุดการใช้นโยบาย : {{objDataFeederItem.end_regulation_datetime|limitTo:10:0}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

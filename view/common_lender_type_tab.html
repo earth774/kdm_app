@@ -1,0 +1,73 @@
+<div ng-if="activeTab=='tab2'" class="tab-pane fade" ng-class="{'in show active':activeTab=='tab2'}" id="tab2" role="tabpanel" >
+    <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab2 == 'table'" ng-click="switchPage('form','tab2')">
+          <i class="fa fa-plus"></i>
+    </a>
+    <div ng-if="page_tab2 == 'table'" ng-init="funcGetLenderTypeItemByID();" >
+      <table ui-jq="dataTable" ui-options="ajaxLenderTypeOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_lender_type">
+        <thead>
+          <tr>
+            <th>ชื่อสินเชื่อ</th>
+            <th>ดอกเบี้ย (%)</th>
+            <th>ระยะเวลาในการผ่อน (เดือน)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- /page table -->
+    <div ng-if="page_tab2 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcPrepareLenderTypeInfo();">
+      <div class="row justify-content-md-center">
+        <div class="col-xs-12 col-xl-10">
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.name">
+            <label class="">ชื่อสินเชื่อ</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.condition">
+            <label class="">เงื่อนไขสินเชื่อ</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.minimum">
+            <label class="">วงเงินต่ำสุด</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.maximum">
+            <label class="">วงเงินสูงสุด</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.interest">
+            <label class="">ดอกเบี้ย (%)</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="lenderTypeItem.installment_mo">
+            <label class="">ระยะเวลาในการผ่อน (เดือน)</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+          <input ng-model="lenderTypeItem.start_date" type="text" id="start_valid_datetime" class="form-control datepicker">
+            <label for="start_valid_datetime">เวลาเริ่มต้นโครงการ</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+          <input ng-model="lenderTypeItem.end_date" type="text" id="end_valid_datetime" class="form-control datepicker">
+            <label for="end_valid_datetime">เวลาสิ้นสุดโครงการ</label>
+          </div>
+          <div class="text-center">
+            <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table','tab2');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+            <button class="btn btn-success" ng-click="funcInsertLenderTypeItem(lenderTypeItem);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+          </div>
+        </div>
+        <!-- /col-xs-12 col-xl-10 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /page form -->
+</div>

@@ -1,0 +1,43 @@
+<div class="modal fade" id="InvestItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลในการลงทุน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>พืช/สัตว์ : {{objInvest.resource_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>โฉนด : {{objInvest.deed_no}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เงินลงทุน : {{objInvest.invest_money}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>กำไรที่คาดหวัง (%) : {{objInvest.expect_profit_percent}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ความเสี่ยงที่รับได้ (%) : {{objInvest.risk_accept_percent}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label> ระยะเวลาคืนทุน (ปี) : {{objInvest.return_time_year}}</label>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

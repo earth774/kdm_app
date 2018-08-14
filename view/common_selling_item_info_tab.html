@@ -1,0 +1,171 @@
+<div ng-if="activeTab=='tab4'" class="tab-pane fade" ng-class="{'in show active':activeTab=='tab4'}" id="tab4" role="tabpanel" >
+    <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab4 == 'table'" ng-click="switchPage('form','tab4')">
+       <i class="fa fa-plus"></i>
+    </a>
+    <div ng-if="page_tab4 == 'table'" ng-init="funcGetSellingItemByID();" >
+      <table ui-jq="dataTable" ui-options="ajaxSellOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_product_selling">
+        <thead>
+          <tr>
+            <th ng-if="user_type_id==3">ชื่อร้าน</th>
+            <th ng-if="user_type_id==4">ชื่อห้าง/ตลาด</th>
+            <th>ผลผลิต</th>
+            <th>ปริมาณ</th>
+            <th ng-if="user_type_id==2">ราคา</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+  </div>
+
+
+    <div ng-if="page_tab4 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetProductInfo();funcGetStoreInfo();hasSubmit=false;findUnit(product_info,sellingItem.product_info_id,'ผลผลิต');">
+        <form name="form_selling_item">
+
+
+      <div class="row justify-content-md-center">
+        <div class="col-xs-12 col-xl-10">
+            <div class="md-form" ng-if="user_type_id==3">
+
+              <select class="mdb-select colorful-select dropdown-primary" name="select_shop" id="select_shop" required ng-model="sellingItem.sub_id" >
+                      <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="store in store_info" value="{{store.id}}" on-finish-render="ngRepeatFinished">{{store.shop_name}}</option>
+                </select>
+              <label >ร้าน</label>
+              <small class="red-text" ng-show="!sellingItem.sub_id && hasSubmit">This field is required.</small>
+            </div>
+            <!-- + -->
+            <div class="md-form" ng-if="user_type_id==4">
+
+              <select class="mdb-select colorful-select dropdown-primary" name="select_store" id="select_store" required ng-model="sellingItem.sub_id" >
+                      <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="store in store_info" value="{{store.id}}" on-finish-render="ngRepeatFinished">{{store.store_name}}</option>
+                </select>
+              <label >ห้าง</label>
+              <small class="red-text" ng-show="!sellingItem.sub_id && hasSubmit">This field is required.</small>
+            </div>
+            <!--  -->
+           
+          <!-- start select 2 -->
+          <!-- for set select value -->
+          <!-- old code -->
+          <div class="md-form" style="display: none;">
+            <select class="mdb-select colorful-select dropdown-primary" 
+                    name="select_product_buying" 
+                    id="select_product_buying" 
+                    ng-model="sellingItem.product_info_id" \
+                    ng-change="findUnit(product_info,sellingItem.product_info_id,'ผลผลิต');"
+                    required>
+                    <option value="" disabled>กรุณาเลือก</option>
+                    <option ng-repeat="product in product_info" value="{{product.id}}" on-finish-render="ngProductRepeatFinished">{{product.name}}</option>
+              </select>
+            <label>ชื่อผลผลิต</label>
+            <small class="red-text" ng-show="!sellingItem.product_info_id && hasSubmit">This field is required.</small>
+          </div>
+          <!-- old code -->
+
+          <!-- for show select 2 -->
+          <label style="color: #757575; font-size: 0.8rem;">ชื่อผลผลิต</label>
+          <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+            <select class="mdb-select-2 colorful-select dropdown-primary" id="product_selling_select2_show">
+                <option value="">กรุณาเลือก</option>
+                <option ng-repeat="product in product_info" 
+                        value="{{product.id}}" 
+                        on-finish-render="ngProductRepeatFinished"
+                        ng-selected="product.id == sellingItem.product_info_id"
+                        >{{product.name}}
+                </option>
+            </select>
+            <small class="red-text" ng-show="!sellingItem.product_info_id && hasSubmit">This field is required.</small>
+          </div>
+          <script>
+              $(document).ready(function() {  
+                  $('.mdb-select-2').select2();
+                  $(".select2").css("width","100%");
+                  $(".select2-selection__rendered").css("color","#757575");
+                  $(".select2-selection__rendered").css("color","#757575");
+                  
+                  $( "#product_selling_select2_show" ).change(function() {
+                      var product_id = $(this).val().toString()
+                      $("#select_product_buying").val(product_id).change();
+
+                      $("#product_info_explanation").val("").change();
+                  });
+              });
+          </script>
+          <!-- end select 2 -->
+
+          <div class="md-form" ng-show="sellingItem.product_info_id == '0'">
+            <input type="text"  name="product_info_explanation" 
+                                id="product_info_explanation"
+                                class="form-control" 
+                                ng-model="sellingItem.product_info_explanation" 
+                                value="{{ sellingItem.product_info_explanation }}"
+                                ng-required="sellingItem.product_info_id == 0">
+            <label for="product_info_explanation" ng-class="{'active': sellingItem.product_info_explanation}">
+                ระบุชื่อผลผลิต
+            </label>
+            <small class="red-text" ng-show="form_selling_item.product_info_explanation.$error.required && hasSubmit">This field is required.</small>
+          </div>
+
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="sellingItem.qty">
+            <label ng-class="{'active':sellingItem.qty}">ปริมาณ ({{unit_product}})</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="sellingItem.price">
+            <label ng-class="{'active':sellingItem.price}">ราคาขาย</label>
+          </div>
+          <!--  -->
+
+
+          <div class="md-form">
+            <textarea class="md-textarea" rows="2" ng-model="sellingItem.address"></textarea>
+            <label ng-class="{'active':sellingItem.address}">สถานที่รับซื้อ</label>
+          </div>
+          <!--  -->
+
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" ng-model="sellingItem.transport_duration_start_datetime" id="start_date_transport">
+            <label for="start_date_transport" ng-class="{'active':sellingItem.transport_duration_start_datetime}">ระยะเวลาเริ่มต้นขนส่ง</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" ng-model="sellingItem.transport_duration_end_datetime" id="end_date_transport">
+            <label for="end_date_transport" ng-class="{'active':sellingItem.transport_duration_end_datetime}">ระยะเวลาสิ้นสุดการขนส่ง</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <textarea class="md-textarea" rows="2" ng-model="sellingItem.loss_qty"></textarea>
+            <label ng-class="{'active':sellingItem.loss_qty}">ปริมาณสูญเสีย</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" ng-model="sellingItem.selling_start_date_time" id="start_date_selling">
+            <label for="start_date_selling" ng-class="{'active':sellingItem.selling_start_date_time}">ระยะเวลาเริ่มต้นการขาย</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" ng-model="sellingItem.selling_end_date_time" id="end_date_selling">
+            <label for="end_date_selling" ng-class="{'active':sellingItem.selling_end_date_time}">ระยะเวลาสิ้นสุดการขาย</label>
+          </div>
+          <!--  -->
+
+          <div class="text-center">
+            <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table','tab4');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+            <button ng-show="!sellingItem.id" ng-disabled="!!form_selling_item.$error.required && hasSubmit" class="btn btn-success" ng-click="funcInsertbSellingItem(!!form_selling_item.$error.required);hasSubmit=true">
+              <i class="fa fa-save ml-1"></i> บันทึก</button>
+              <button ng-show="sellingItem.id" ng-disabled="!!form_selling_item.$error.required && hasSubmit" class="btn btn-success" ng-click="funcUpdateSellingItem(!!form_selling_item.$error.required);hasSubmit=true">
+                <i class="fa fa-save ml-1"></i> บันทึก</button>
+          </div>
+        </div>
+        <!-- /col-xs-12 col-xl-10 -->
+      </div>
+      <!-- /row -->
+      </form>
+    </div>
+    <!-- /page form -->
+</div>

@@ -1,0 +1,51 @@
+<div class="modal fade" id="LenderTypeDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลในการให้กู้ยืม</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อสินเชื่อ : {{objLender.name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เงื่อนไขสินเชื่อ : {{objLender.condition}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วงเงินต่ำสุด : {{objLender.minimum}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วงเงินต่ำสุด : {{objLender.minimum}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ดอกเบี้ย (%) : {{objLender.interest}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ระยะเวลาในการผ่อน (เดือน) : {{objLender.installment_mo}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>เวลาเริ่มต้นโครงการ : {{objLender.start_date|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label> เวลาสิ้นสุดโครงการ : {{objLender.end_date|limitTo:10:0}}</label>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

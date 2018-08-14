@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height p-0" ng-app="KDM">
+
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Agriconnect</title>
+
+        <!-- Font Awesome -->
+        <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="../assets/css/mdb.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+        <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+        <!-- DataTable -->
+        <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+        <!-- select 2 -->
+        <link href="../assets/plugins/select2/select2.min.css" rel="stylesheet" />
+        <style>
+            .picker--opened .picker__frame {
+                bottom: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+            }
+
+            body.modal-open {
+                padding-right: 0 !important;
+                overflow: hidden;
+            }
+            /*file upload buttom*/
+
+            .fileUpload input.upload {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100px;
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                cursor: pointer;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+        </style>
+    </head>
+
+    <body class="fixed-sn indigo-skin" ng-controller="FarmerSMECtrl" ng-init="CheckCookies();">
+
+        <!--Double navigation-->
+
+        <div id="side_menu"  ng-include="'../common/menu.html'" ng-controller="MenuCtrl" ng-init="showMenu(); funcCheckUserRole();"></div>
+        <main>
+            <!-- Form contact -->
+            <div class="container-fluid mt-5">
+                <!-- <form name="resource_view" novalidate="novalidate"> -->
+                    <div ng-include="'../view/common_admin_view.html'"></div>
+                    <div ng-if="!check_admin">
+                        <!-- tabs-wrapper from common_farmer_sme_tab-->
+                        <div ng-include="'../view/common_farmer_sme_tab.html'"></div>
+                        <!-- /tabs-wrapper -->
+
+                        <!-- Tab panels -->
+                        <div class="tab-content card mb-5">
+                            <!--Panel extra ข้อมูลส่วนตัว common_farmer_sme_profile.html-->
+                            <div ng-include="'../view/common_farmer_sme_profile.html'"></div>
+                            <!--/.Panel 1-->
+
+                            <!--Panel extra ข้อมูลผลผลิตและการเพาะปลูก/เลี้ยง common_farmer_extra.html-->
+                            <div ng-include="'../view/common_farmer_sme_extra.html'"></div>
+                            <!--/.Panel extra-->
+
+                            <!--Panel 2 แปลงเพาะปลูก-->
+                            <div ng-include="'../view/common_farmer_sme_cultivated_area.html'"></div>
+                            <!--Panel 2-->
+
+                            <!--Panel 3 เพาะปลูก-->
+                            <div ng-include="'../view/common_farmer_sme_agriculture.html'"></div>
+                            <!--Panel 3-->
+
+                            <!--Panel 4 ข้อมูลผลผลิต-->
+                            <div ng-include="'../view/common_farmer_sme_production.html'"></div>
+                            <!--Panel 4-->
+
+                            <!--Panel 5 ข้อมูลมาตรฐาน GAP-->
+                            <div ng-include="'../view/common_farmer_sme_gap.html'"></div>
+                            <!--Panel 5-->
+
+                            <!--Panel 6 ข้อมูลมาตรฐาน IFOAM-->
+                            <div ng-include="'../view/common_farmer_sme_ifoam.html'"></div>
+                            <!--Panel 6-->
+
+                            <!--Panel 7 ข้อมูลมาตรฐานเกษตรนานาชาติ-->
+                            <div ng-include="'../view/common_farmer_sme_international_standard.html'"></div>
+                            <!--Panel 7-->
+
+                            <!--Panel 8 ผู้ตรวจแปลง-->
+                            <!--div ng-include="'../view/common_farmer_sme_inspection.html'"></div-->
+                            <!--Panel 8-->
+
+                        </div>
+                        <!-- /tab-content -->
+                    </div>
+                <!-- </form> -->
+            </div>
+            <!-- Modal Detail Product -->
+            <div ng-include="'../view/common_farmer_sme_modal.html'"></div>
+            <!-- Modal Conferm Delete-->
+            <div ng-include="'../view/common_modal_confirm_delete.html'"></div>
+            
+        </main>
+        <!-- Form contact -->
+
+        <!--/.Double navigation-->
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+        <!-- SCRIPTS -->
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+        <!-- Popper -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+        <!-- DataTable -->
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Angular -->
+        <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- select 2 -->
+        <script src="../assets/plugins/select2/select2.min.js"></script>
+
+        <!-- Plugins -->
+        <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+        <!-- ng-file-upload -->
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+
+        <!-- MDB -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+        <!-- App -->
+        <script type="text/javascript" src="../js/core/app.js"></script>
+        <script type="text/javascript" src="../js/core/util.js"></script>
+        <script type="text/javascript" src="../js/common/menu.js"></script>
+        <script type="text/javascript" src="../js/app/farmer_sme_menu.js"></script>
+
+        <!-- ng-map -->
+        <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+        <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+
+        <script>
+              // Material Select Initialization
+              $(document).ready(function() {});
+              new WOW().init();
+        </script>
+    </body>
+
+</html>

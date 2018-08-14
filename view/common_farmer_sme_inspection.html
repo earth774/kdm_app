@@ -1,0 +1,48 @@
+<!--Panel 7 ข้อมูลมาตรฐานเกษตรนานาชาติ-->
+<div ng-if="activeTab=='tab8'" class="tab-pane fade " 
+    ng-class="{'in show active':activeTab=='tab8'}" 
+    id="tab8" role="tabpanel" >
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab8 == 'table'" >
+        <div class="col-xs-12 col-xl-10" ng-init="funcGetInspectionByID();">
+            <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab8 == 'table'" ng-click="switchPage('form','tab8')"><i class="fa fa-plus"></i></a>
+            <table ui-jq="dataTable" ui-options="ajaxInspectionOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_inspection">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /TABLE -->
+    
+    <!-- FORM -->
+    <div ng-if="page_tab8 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetInspectionInfo();">
+      <div class="row justify-content-md-center">
+        <div class="col-xs-12 col-xl-10">
+          <div class="md-form">
+
+            <select class="mdb-select colorful-select dropdown-primary" name="select_inspection_body_info" id="select_inspection_body_info" required ng-model="InspectionItem.inspection_body_info_id" >
+                    <option value="" disabled>กรุณาเลือก</option>
+                    <option ng-repeat="inspection_body in inspection_body_info" value="{{inspection_body.id}}" on-finish-render="ngRepeatFinished">{{inspection_body.user_fullname}}</option>
+              </select>
+            <label>ชื่อผู้ตรวจแปลง</label>
+          </div>
+          <!--  -->
+          
+          <div class="text-center">
+            <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table','tab8');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+            <button class="btn btn-success" ng-click="funcInsertInspection(InspectionItem);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+          </div>
+        </div>
+        <!-- /col-xs-12 col-xl-10 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /FORM -->
+    
+</div>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height"  ng-app="KDM">
+
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Agriconnect</title>
+
+        <!-- Font Awesome -->
+        <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="../assets/css/mdb.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+        <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+        <!-- DataTable -->
+        <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    </head>
+
+    <body  class="fixed-sn indigo-skin" ng-controller="ProfileCtrl" ng-init="CheckCookies();">
+
+        <!--Double navigation-->
+
+        <div id="side_menu"  ng-controller="MenuCtrl" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+        <main>
+        <!-- Form contact -->
+
+        <!--table all account-->
+            <!-- Form contact -->
+            <div class="container-fluid mt-5" ng-init="AccountInfo();">
+                <form name="add_account" id="form_add_account" novalidate>
+                    <div class="md-form">
+
+                        <input type="text" name="fullname" id="fullname" class="form-control" ng-model="fullname" value="{{fullname}}" required>
+                        <label for="fullname" ng-class="{active: fullname != null}"><i class="fa fa-address-card grey-text"></i> ชื่อ - สกุล</label>
+                    </div>
+
+                    <div class="md-form">
+
+                        <input type="text"  name="username" id="username" class="form-control" ng-model="username" value="{{username}}" required>
+                        <label for="username" ng-class="{active: username != null}"><i class="fa fa-user grey-text"></i> ชื่อผู้ใช้งาน</label>
+                    </div>
+
+                    <div class="md-form">
+
+                        <input type="password" name="password" id="password" class="form-control" ng-model="password" value="{{password}}" >
+                        <label for="password" ng-class="{active: password != null}"><i class="fa fa-lock grey-text"></i> รหัสผ่าน</label>
+                    </div>
+
+
+                    <div class="md-form">
+
+                        <input type="text" name="email" id="email" class="form-control" ng-model="email" value="{{email}}" required>
+                        <label for="email" ng-class="{active: email != null}"><i class="fa fa-envelope grey-text"></i> อีเมล์</label>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-success"  ng-click="SubmitForm(id);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                    </div>
+
+                </form>
+            </div>
+            <!-- Form contact -->
+
+        </main>
+        <!-- Form contact -->
+
+        <!--/.Double navigation-->
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+        <!-- SCRIPTS -->
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+        <!-- Popper -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+        <!-- DataTable -->
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Angular -->
+        <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- Plugins -->
+        <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+                <!-- ng-map -->
+       <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+       <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+       <!-- ng-file-upload -->
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+        <!-- App -->
+        <script type="text/javascript" src="../js/core/app.js"></script>
+        <script type="text/javascript" src="../js/core/util.js"></script>
+        <script type="text/javascript" src="../js/common/menu.js"></script>
+        <script type="text/javascript" src="../js/app/profile.js"></script>
+
+        <script>
+            // Material Select Initialization
+            $(document).ready(function() {
+                $("p").text('ข้อมูลส่วนตัว');
+            });
+            new WOW().init();
+        </script>
+    </body>
+</html>

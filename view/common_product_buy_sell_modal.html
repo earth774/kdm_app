@@ -1,0 +1,173 @@
+<div class="modal fade" id="StoreDetail" tabindex="-1" role="dialog" aria-labelledby="StoreDetail" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดร้านค้า</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อร้าน : {{objStore.shop_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>โซน : {{objStore.zone}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>รหัสแผง : {{objStore.lot_number}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ชื่อตลาด : {{objStore.market_name}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ที่อยู่ตลาด : {{objStore.market_address}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ร้านทั้งหมดในตลาด : {{objStore.total_shop}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>วิธีการซื้อขาย : {{objStore.buy_sell_type_id}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>QR Code :</label>
+                </div>
+                <!--div class="col-md-6">
+                     <img src="../assets/img/placeholder.png" class="img-fluid" alt="placeholder" class="img-thumbnail">
+                </div-->
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<div class="modal fade" id="ProductDetailBuy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลผลผลิต</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <label>ชื่อร้าน : {{objProduct.sub_id}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ชื่อผลผลิต : {{objProduct.product_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณ : {{objProduct.qty}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ราคาขาย : {{objProduct.price}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>สถานที่รับซื้อ : {{objProduct.address}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ระยะเวลาเริ่มต้นขนส่ง : {{objProduct.transport_duration_start_datetime|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ระยะเวลาสิ้นสุดการขนส่ง : {{objProduct.transport_duration_end_datetime|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ปริมาณสูญเสีย : {{objProduct.loss_qty}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ระยะเวลาเริ่มต้นการซื้อ : {{objProduct.buying_start_date_time|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>ระยะเวลาสิ้นสุดการซื้อ : {{objProduct.buying_end_date_time|limitTo:10:0}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<div class="modal fade" id="ProductDetailSell" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลผลผลิต</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อผลผลิต : {{objProduct.product_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณ : {{objProduct.qty}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ช่วงราคาที่ต้องการรับซื้อ : {{objProduct.price}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>สถานที่รับซื้อ : {{objProduct.address}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content text-center">
+                <!--Header-->
+                <div class="modal-header d-flex justify-content-center">
+                    <p class="heading">คุณแน่ใจว่าต้องการลบข้อมูลนี้?</p>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+
+                    <i class="fa fa-trash fa-4x animated rotateIn"></i>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    <button class="btn  btn-outline-secondary-modal" ng-click="delData(data_alert)">ใช่</button>
+                    <button type="button" class="btn  btn-primary-modal waves-effect" data-dismiss="modal">ไม่</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!--Modal: modalConfirmDelete-->

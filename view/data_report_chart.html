@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height"  ng-app="KDM">
+
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>DataReportChart</title>
+
+        <!-- Font Awesome -->
+        <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="../assets/css/mdb.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+        <link href="../assets/css/mdbMain.css" rel="stylesheet">
+        <link href="../assets/node_modules/highcharts-ng/dist/highcharts-ng.css" rel="stylesheet">
+        <!-- color picker -->
+        <link href="../assets/node_modules/angular-bootstrap-colorpicker/css/colorpicker.min.css" rel="stylesheet">
+        <!-- DataTable -->
+        <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+        <style>
+            .icon-top-right{
+                position: absolute;
+                top:0;
+                right: 10px;
+            }
+            .warning-text{
+                position: absolute;
+                top: 20%;
+                left: 25%;
+                /* right: 25%; */
+                color: #9e9e9e;
+            }
+            .h-300{height: 300px;}
+
+            @media screen and (max-device-width: 993px)
+            {
+                .sh-min-994{display: none;}
+                .sh-max-993{display: table-row-group;}
+
+            }
+            @media screen and (min-device-width: 994px)
+            {
+                .sh-min-994{display: table-row-group;}
+                .sh-max-993{display: none;}
+            }
+
+        </style>
+    </head>
+
+    <body  class="fixed-sn indigo-skin" ng-controller="DataReportChartCtrl" ng-init="CheckCookies();">
+
+        <!--Double navigation-->
+
+        <div id="side_menu" ng-controller="MenuCtrl" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+        <main>
+            <!-- card -->
+            <div class="card mb-4" ng-repeat="chart in chartObj">
+                <div class="card-body">
+
+                    <div class="col-12 text-right">
+
+                        <button type="button" class="btn btn-white btn-rounded z-depth-1a waves-effect waves-light p-3" ng-click="getReportData(chart)"><i class="fa fa-pencil blue-text"></i></button>
+                        <button type="button" class="btn btn-white btn-rounded z-depth-1a waves-effect waves-light p-3" ng-click="getDelData(chart)"><i class="fa fa-trash blue-text"></i></button>
+                    </div>
+
+
+                    <div class="md-form" ng-show="chart.chart.type != 'line'">
+                        <select class="mdb-select colorful-select dropdown-primary" name="select_year{{$index}}" id="select_year{{$index}}" ng-model="chart.year" ng-change="getReportByYear(chartObj.indexOf(chart), chart)">
+                            <option ng-repeat="year in chart.year_list" ng-value="year" on-finish-render="repeatYearFinish">{{year}}</option>
+                        </select>
+                        <label class="">เลือกปี</label>
+                    </div>
+                    <!--  -->
+                    <highchart id="chart1" config="chart" ></highchart>
+                </div>
+
+            </div>
+            <!-- if null data -->
+            <div class="col-12 text-center h-300" ng-if="chartObj.length == 0">
+                <h2 class="warning-text">
+                    <i class="fa fa-warning fa-2x" aria-hidden="true"></i>
+                    <br/>
+                    กรุณากดเครื่องหมายบวกเพื่อเพิ่มรายงาน
+                </h2>
+            </div>
+            <!-- /if null data -->
+        </div>
+        <!-- /card -->
+
+        <!-- เพิ่มกราฟ -->
+        <div class="fixed-action-btn active" title="เพิ่มกราฟ" ng-click="funcModalSettingChart()">
+            <a type="button" class="btn-floating btn-lg red waves-effect waves-light" >
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+
+
+
+
+
+
+        <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- Central Modal Large Info-->
+        <div class="modal fade" id="modalSettingChart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog cascading-modal modal-lg" role="document">
+                <!--Content-->
+                <div class="modal-content">
+
+                    <!--Header-->
+                    <div class="modal-header light-blue darken-3 white-text">
+                        <h4 class="title" ng-show="setting_tab == 1"><i class="fa fa-user"></i> ประเภทผู้ใช้งาน</h4>
+                        <h4 class="title" ng-show="setting_tab == 2"><i class="fa fa-line-chart"></i> เลือกประเภทกราฟ</h4>
+                        <h4 class="title" ng-show="setting_tab == 3"><i class="fa fa-gears"></i> เลือกชุดข้อมูล</h4>
+
+                        <button type="button" class="close waves-effect waves-light" ng-click="closemodal()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body mb-0">
+                        <!-- block 1 -->
+                        <form name="form1" ng-show="setting_tab == 1 && modal_type != 'editchart'" >
+                            <div class="md-form">
+                                <select class="mdb-select colorful-select dropdown-primary" name="select_user_type" id="select_user_type" required ng-model="select_user_type" ng-change="getChart_value(select_user_type)" placeholder="กรุณาเลือก">
+                                    <option value="" disabled>เลือกประเภทผู้ใช้</option>
+                                    <option ng-repeat="type in user_type" value="{{type.id}}" on-finish-render="ngRepeatFinished">{{type.name}}</option>
+                                </select>
+                                <label >ประเภท</label>
+                            </div>
+
+                            <div class="text-center mt-1-half">
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" ng-click="closemodal()">ยกเลิก</button>
+                                <button  type="button" class="btn btn-info mb-2" ng-click="switchTab(2)"  ng-disabled="!!form1.$error.required">ถัดไป</button>
+
+                            </div>
+                        </form>
+                        <!-- block 2 -->
+                        <form name="form2" ng-show="setting_tab == 2 && modal_type != 'editchart'">
+                            <div class="md-form">
+                                <input type="text" class="form-control" ng-model="chart_info.name" name="name" id="name" required>
+                                <label ng-class="{'active':chart_info.name}">ชื่อกราฟ</label>
+
+                            </div>
+                            <!--  -->
+                            <div class="md-form">
+                                <select class="mdb-select colorful-select dropdown-primary" name="select_chart_type" id="select_chart_type" required ng-model="chart_info.chart_type_id" ng-change="funcCheckTypeChart(chart_info.chart_type_id)">
+                                    <option value="" disabled>กรุณาเลือก</option>
+                                    <option ng-repeat="type in chart_type" value="{{type.id}}">{{type.name}}</option>
+                                </select>
+                                <label >ประเภทกราฟ</label>
+                            </div>
+                            <!--  -->
+
+                            <div class="md-form">
+                                <select class="mdb-select colorful-select dropdown-primary" name="select_chart_value" id="select_chart_value" required ng-model="chart_info.user_type_chart_data_id" ng-change="checkGetResource(chart_info.user_type_chart_data_id)">
+                                    <option value="" disabled>กรุณาเลือก</option>
+                                    <option ng-repeat="type in chart_value" value="{{type.id}}" on-finish-render="ngRepeatChartValue">{{type.name}}</option>
+                                </select>
+                                <label >ชนิดของข้อมูล</label>
+                            </div>                          
+                            
+                            <div class="text-center mt-1-half">
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" ng-click="switchTab(1)">ย้อนกลับ</button>
+                                <button  type="button" class="btn btn-info mb-2" ng-click="switchTab(3)" ng-disabled="!!form2.$error.required">ถัดไป</button>
+                            </div>
+                        </form>
+                        <!-- block 2 -->
+                        <form name="form3" ng-show="setting_tab == 3">
+                            <!-- warning -->
+                            <div class="alert alert-warning" ng-if="(!!form3.$error.required == true)">
+                                <strong>Warning!</strong> กรุณากรอกข้อมูลให้ครบ
+                            </div>
+                            <div class="alert alert-warning" ng-if="(checkDiff == false)">
+                                <strong>Warning!</strong> กรุณาเลือกข้อมูลที่มีหน่วยตรงกัน
+                            </div>
+                            <!-- /warning -->
+
+                            <div class="md-form" ng-if="modal_type == 'editchart'">
+                                <input type="text" class="form-control" ng-model="chart_info.name" name="name" id="name" required>
+                                <label ng-class="{'active':chart_info.name}">Name</label>
+
+                            </div>
+
+                            <div class="row" ng-repeat="list in chart_data.chart_data_item_list">
+                                <div class="col-lg-1 mb-3">
+                                    # {{list.order = $index + 1}}
+                                    <a class="icons-sm yt-ic sh-max-993 p-0 m-0 icon-top-right" ng-click="funcDelrow($index)"><i class="fa fa-close" > </i></a>
+                                </div>
+                                <!--  -->
+                                <div class="col-lg-8">
+                                    <div class="md-form">
+                                        <select class="mdb-select colorful-select dropdown-primary" name="resource_info_id{{$index}}" id="resource_info_id{{$index}}" required ng-model="list.data_info_id" >
+                                            <option value="" disabled></option>
+                                            <option ng-repeat="resource in resource_info" value="{{resource.id}}" on-finish-render="ngRepeatResourceFin">{{resource.name}} {{'(' + resource.unit + ')'}}</option>
+                                        </select>
+
+                                        <label class="">{{obj_dataInfoType.data_info_name}} </label>
+
+                                    </div>
+                                </div>
+                                <!--  -->
+                                <div class="col-lg-2">
+
+                                    สี <button class="btn px-2 btn-sm" title="เลือกสี" style="background-color: {{list.color}};" colorpicker type="button" colorpicker-position="top" ng-model="list.color"><i class="fa fa-eyedropper"></i></button>
+                                </div>
+                                <!--  -->
+                                <div class="col-lg-1 mb-3 text-right">
+                                    <a class="icons-sm yt-ic sh-min-994" ng-hide="chart_info.chart_type_id == 4" ng-click="funcDelrow($index)"><i class="fa fa-trash" > </i></a>
+                                </div>
+
+                            </div>
+                            
+                           <div class="md-form">
+                                <input type="checkbox" class="form-check-input" id="checkbox_custom_sql" ng-model="chart_info.is_custom_sql">
+                                <label class="form-check-label" for="checkbox_custom_sql">Use custom SQL</label>
+                            </div>
+
+
+                            <div class="md-form">
+                                <textarea class="md-textarea" ng-model="chart_info.custom_mysql_statement_select" rows="5"></textarea>
+                                <label ng-class="{'active' : chart_info.custom_mysql_statement_select}">SELECT statement</label>
+                            </div>
+
+                            <div class="md-form">
+                                <textarea class="md-textarea" ng-model="chart_info.custom_mysql_statement_where" rows="5"></textarea>
+                                <label ng-class="{'active' : chart_info.custom_mysql_statement_where}">WHERE statement</label>
+                            </div>  
+
+                            <div class="md-form">
+                                <textarea class="md-textarea" ng-model="chart_info.custom_mysql_statement_groupby" rows="5"></textarea>
+                                <label ng-class="{'active' : chart_info.custom_mysql_statement_group}">GROUP BY statement</label>
+                            </div>                               
+
+                            <div class="md-form">
+                                <textarea class="md-textarea" ng-model="chart_info.custom_mysql_x_axis_field" rows="5"></textarea>
+                                <label ng-class="{'active' : chart_info.custom_mysql_x_axis_field}">ฟิลด์ข้อมูลสำหรับแกน X</label>
+                            </div>                            
+                            
+                            <!-- +++++++++++++++++++++++ -->
+                            <div class="col-md-12 col-lg-12 text-right" ng-hide="chart_info.chart_type_id == 4">
+                                <a type="button" class="btn-floating green waves-effect waves-light" ng-click="funcAddrow()"><i class="fa fa-plus"></i></a>
+
+                            </div>
+                            <!-- {{!!form3.$error.required}} -->
+                            <div class="text-center mt-1-half">
+
+                                <!--  -->
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" ng-hide="modal_type == 'editchart'" ng-click="switchTab(2)">ย้อนกลับ</button>
+                                <button  type="button" class="btn btn-info mb-2" ng-click="insertChart(!!form3.$error.required); select_user_type = null" ng-hide="modal_type == 'editchart'" ng-disabled="!!form3.$error.required">เสร็จ </button>
+                                <!-- update -->
+                                <button type="button" class="btn btn-outline-info waves-effect ml-auto" ng-if="modal_type == 'editchart'" ng-click="closemodal()">ยกเลิก</button>
+                                <button  type="button" class="btn btn-info mb-2" ng-click="updateChart(!!form3.$error.required);" ng-if="modal_type == 'editchart'" ng-disabled="!!form3.$error.required">แก้ไข </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!--Modal: Contact form-->
+        <!--Modal: modalConfirmDelete-->
+        <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                <!--Content-->
+                <div class="modal-content text-center">
+                    <!--Header-->
+                    <div class="modal-header d-flex justify-content-center">
+                        <p class="heading">คุณแน่ใจว่าต้องการลบรายงานนี้?</p>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+
+                        <i class="fa fa-trash fa-4x animated rotateIn"></i>
+
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer flex-center">
+                        <button class="btn  btn-outline-secondary-modal" ng-click="delData(data_alert)">ใช่</button>
+                        <button type="button" class="btn  btn-primary-modal waves-effect" data-dismiss="modal">ไม่</button>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!--Modal: modalConfirmDelete-->
+        <!-- Central Modal Large Info-->
+    </main>
+    <!--/.Double navigation-->
+    <!--Footer-->
+    <footer>
+    </footer>
+    <!--Footer-->
+
+    <!-- SCRIPTS -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+
+    <!-- Popper -->
+    <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+
+    <!-- DataTable -->
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Angular -->
+    <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+    <!-- Plugins -->
+    <script type="text/javascript" src="../assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+    <!-- ng-map -->
+    <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+    <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+    <!-- ng-file-upload -->
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <!-- color picker -->
+    <script src="../assets/node_modules/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+    <!-- App -->
+    <!-- <script type="text/javascript" src="../js/core/app.js"></script> --> <!--ย้ายมาไว้ใน ไฟล์ data_report_chart.js-->
+
+
+    <!-- <script src="../assets/node_modules/highcharts/js/highstock.src.js"></script> -->
+    <script src="https://code.highcharts.com/stock/highstock.src.js"></script>
+    <script src="../assets/node_modules/highcharts-ng/dist/highcharts-ng.js"></script>
+    <!-- highchart-map -->
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="../assets/node_modules/highcharts-ng/dist/th-all.js"></script>
+
+
+
+    <script type="text/javascript" src="../js/app/data_report_chart.js"></script>
+
+
+    <script type="text/javascript" src="../js/core/util.js"></script>
+    <script type="text/javascript" src="../js/common/menu.js"></script>
+
+
+    <script>
+                              $('#modalSettingChart').modal({
+                              backdrop: 'static',
+                                      keyboard: false,
+                                      show: false
+                              });
+    </script>
+</body>
+</html>

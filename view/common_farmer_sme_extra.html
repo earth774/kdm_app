@@ -1,0 +1,171 @@
+<!--Panel extra ข้อมูลผลผลิตและการเพาะปลูก/เลี้ยง -->
+<div ng-if="activeTab == 'tab_extra'" class="tab-pane fade "
+     ng-class="{'in show active':activeTab == 'tab_extra'}"
+     id="tab_extra" role="tabpanel" >
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab_extra == 'table'" >
+        <div class="col-xs-12 col-xl-10" ng-init="funcGetFarmerExtraByID();">
+            <div >
+                <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab_extra == 'table'" ng-click="switchPage('form', 'tab_extra')"><i class="fa fa-plus"></i></a>
+                <table ui-jq="dataTable" ui-options="ajaxFarmerExtraOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_farmer_extra">
+                    <thead>
+                        <tr>
+                            <th>พืชที่ปลูก/สัตว์ที่เลี้ยง</th>
+                            <th>ผลผลิตที่ได้</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /TABLE -->
+
+    <!-- FORM -->
+    <div ng-if="page_tab_extra == 'form'" class="col-xs-12 col-xl-10" ng-init="FarmerExtraItem.farmer_extra_type_id='1'">
+        <div class="row justify-content-md-center">
+            <div class="col-xs-12 col-xl-10">
+
+                <div class="md-form form-inline">
+                    <div class="form-group">
+                        <input name="type_extra" type="radio" id="sel_farm" value="1" ng-model="FarmerExtraItem.farmer_extra_type_id">
+                        <label for="sel_farm">เกษตรเพาะปลูก </label>
+                    </div>
+                    <div class="form-group">
+                        <input name="type_extra" type="radio" id="sel_animal" value="2" ng-model="FarmerExtraItem.farmer_extra_type_id">
+                        <label for="sel_animal">ปศุสัตว์ </label>
+                    </div>
+                    <div class="form-group">
+                        <input name="type_extra" type="radio" id="sel_fish" value="3" ng-model="FarmerExtraItem.farmer_extra_type_id">
+                        <label for="sel_fish">การประมง </label>
+                    </div>
+                </div>
+
+                <!--  -->
+                <div class="mt-5" ng-switch="FarmerExtraItem.farmer_extra_type_id">
+                    <div ng-switch-when="1">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.resource_name">
+                            <label ng-class="{'active' : FarmerExtraItem.resource_name}">พืชที่เพาะปลูก</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.area">
+                            <label ng-class="{'active' : FarmerExtraItem.area}">ขนาดแปลงปลูก</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.resource_name">
+                            <label ng-class="{'active' : FarmerExtraItem.resource_name}">สัตว์ที่เพาะเลี้ยง</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.area">
+                            <label ng-class="{'active' : FarmerExtraItem.area}">ขนาดโรงเลี้ยงและจำนวน</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="3">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.resource_name">
+                            <label ng-class="{'active' : FarmerExtraItem.resource_name}">สัตว์ที่เพาะเลี้ยง</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.area">
+                            <label ng-class="{'active' : FarmerExtraItem.area}">ขนาดกระชังและจำนวน</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control " ng-model="FarmerExtraItem.production_qty">
+                    <label ng-class="{'active' : FarmerExtraItem.production_qty}">ผลผลิตที่ได้โดยประมาณ</label>
+                </div>
+
+                <!--  -->
+                <div class="mt-5" ng-switch="FarmerExtraItem.farmer_extra_type_id">
+                    <div ng-switch-when="1">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.cost">
+                            <label ng-class="{'active' : FarmerExtraItem.cost}">ต้นทุนในการปลูกต่อรอบ</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.revenue">
+                            <label ng-class="{'active' : FarmerExtraItem.revenue}">กำไรที่ได้ต่อรอบการผลิต(ไม่หักต้นทุน)</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.profit">
+                            <label ng-class="{'active' : FarmerExtraItem.profit}">กำไรสุทธิที่ได้ต่อรอบการผลิต</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.cost">
+                            <label ng-class="{'active' : FarmerExtraItem.cost}">ต้นทุนในการเลี้ยงต่อเดือน</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.revenue">
+                            <label ng-class="{'active' : FarmerExtraItem.revenue}">กำไรที่ได้ต่อรอบการผลิตหรือต่อเดือน(ไม่หักต้นทุน)</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.profit">
+                            <label ng-class="{'active' : FarmerExtraItem.profit}">กำไรสุทธิที่ได้ต่อรอบการเพาะเลี้ยงหรือต่อเดือน</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="3">
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.cost">
+                            <label ng-class="{'active' : FarmerExtraItem.cost}">ต้นทุนในการเลี้ยงต่อเดือน</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.revenue">
+                            <label ng-class="{'active' : FarmerExtraItem.revenue}">กำไรที่ได้ต่อรอบการผลิตหรือต่อเดือน(ไม่หักต้นทุน)</label>
+                        </div>
+                        <div class="md-form">
+                            <input type="text" class="form-control" ng-model="FarmerExtraItem.profit">
+                            <label ng-class="{'active' : FarmerExtraItem.profit}">กำไรสุทธิที่ได้ต่อรอบการเพาะเลี้ยงหรือต่อเดือน</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control " ng-model="FarmerExtraItem.merchant_number">
+                    <label ng-class="{'active' : FarmerExtraItem.merchant_number}">จำนวนพ่อค้าที่ทำการซื้อขายด้วย</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <textarea class="md-textarea" ng-model="FarmerExtraItem.source_market" rows="2"></textarea>
+                    <label ng-class="{'active' : FarmerExtraItem.source_market}">แหล่งที่นำไปขาย</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <textarea class="md-textarea" ng-model="FarmerExtraItem.source_material" rows="2"></textarea>
+                    <label ng-class="{'active' : FarmerExtraItem.source_material}">แหล่งซื้อวัตถุดิบ</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <textarea class="md-textarea" ng-model="FarmerExtraItem.standard" rows="2"></textarea>
+                    <label ng-class="{'active' : FarmerExtraItem.standard}">มาตรฐานที่ได้รับ</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <textarea class="md-textarea" ng-model="FarmerExtraItem.remark" rows="2"></textarea>
+                    <label ng-class="{'active' : FarmerExtraItem.remark}">ข้อจำกัดปัญหาหรืออุปสรรคที่ท่านได้รับ</label>
+                </div>
+                <!--  -->
+                <div class="text-center">
+                    <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table', 'tab_extra');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                    <button class="btn btn-success" ng-click="funcInsertFarmerExtra(FarmerExtraItem);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                </div>
+            </div>
+            <!-- /col-xs-12 col-xl-10 -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /FORM -->
+
+
+</div>
+<!--Panel 4-->

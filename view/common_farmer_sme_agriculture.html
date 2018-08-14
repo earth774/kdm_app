@@ -1,0 +1,231 @@
+<!--Panel 3 เพาะปลูก-->
+<div ng-if="activeTab=='tab3'" class="tab-pane fade "
+    ng-class="{'in show active':activeTab=='tab3'}"
+    id="tab3" role="tabpanel" >
+    <!-- TABLE -->
+    <div class="row justify-content-md-center" ng-if="page_tab3 == 'table'">
+        <div class="col-xs-12 col-xl-10" ng-init="funcGetAgricultureByID();">
+            <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab3 == 'table'" ng-click="switchPage('form','tab3')"><i class="fa fa-plus"></i></a>
+            <table ui-jq="dataTable" ui-options="ajaxAgricultureOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_agriculture">
+                <thead>
+                    <tr>
+                        <th>รอบการเพาะปลูก</th>
+                        <th>พืช/สัตว์ ที่ปลูก</th>
+                        <th>เริ่มต้น</th>
+                        <th>สิ้นสุด</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /TABLE -->
+
+    <!-- FORM -->
+    <div ng-if="page_tab3 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetResourceInfo(); getAllCultivatedArea();getAllinvest_type(); funcGetBreedInfo(AgricultureItem.resource_info_id);">
+    <form name="form_agriculture">
+      <div class="row justify-content-md-center">
+        <div class="col-xs-12 col-xl-10">
+          <div class="md-form">
+            <input type="text" class="form-control" name="name" ng-model="AgricultureItem.name" required>
+            <label ng-class="{'active':AgricultureItem.name}">ชื่อรอบการเพาะปลูก</label>
+                <small class="red-text" ng-show="form_agriculture.name.$error.required && hasSubmit">This field is required.</small>
+          </div>
+
+          <!--  -->
+          <!-- start select 2 -->
+          <!-- for set select value -->
+          <!-- old code -->
+          <div class="md-form" style="display: none;">
+            <select class="mdb-select colorful-select dropdown-primary" 
+                    name="select_resource" id="select_resource" 
+                    required 
+                    ng-model="AgricultureItem.resource_info_id" 
+                    ng-change="funcGetBreedInfo(AgricultureItem.resource_info_id)">
+                    <option value="" disabled>กรุณาเลือก</option>
+                    <option ng-repeat="resource in resource_info" 
+                            value="{{resource.id}}" 
+                            on-finish-render="ngRepeatFinished"
+                            >{{resource.name}}
+                    </option>
+              </select>
+            <!-- <label>ชื่อพืช/สัตว์ ที่ปลูก</label> -->
+            <label>ชื่อพืชที่ปลูก ชื่อสัตว์ที่เพาะเลี้ยง</label>
+            <small class="red-text" ng-show="form_agriculture.select_resource.$error.required && hasSubmit">This field is required.</small>
+          </div>
+
+          <!-- for show select 2 -->
+          <label style="color: #757575; font-size: 0.8rem;">ชื่อพืชที่ปลูก ชื่อสัตว์ที่เพาะเลี้ยง</label>
+          <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+              <select class="mdb-select-2 colorful-select dropdown-primary" id="select_resource_select2_show">
+                  <option value="">กรุณาเลือก</option>
+                  <option ng-repeat="resource in resource_info" 
+                          value="{{resource.id}}" 
+                          on-finish-render="ngRepeatFinished"
+                          ng-selected="resource.id == AgricultureItem.resource_info_id"
+                          >{{resource.name}}
+                  </option>
+              </select>
+              <small class="red-text" ng-show="form_agriculture.select_resource.$error.required && hasSubmit">This field is required.</small>
+          </div>
+
+          <div class="md-form" ng-show="AgricultureItem.resource_info_id == '0'">
+              <input type="text"  
+                      name="resource_info_explanation" 
+                      id="resource_info_explanation" 
+                      class="form-control" 
+                      ng-model="AgricultureItem.resource_info_explanation" 
+                      value="{{ AgricultureItem.resource_info_explanation }}"
+                      ng-required="AgricultureItem.resource_info_id == 0">
+              <label for="resource_info_explanation" ng-class="{'active': AgricultureItem.resource_info_explanation}">
+                  ระบุพืช/สัตว์
+              </label>
+              <small class="red-text" ng-show="form_agriculture.resource_info_explanation.$error.required && hasSubmit">This field is required.</small>
+          </div>
+
+          <!-- start select 2 -->
+          <!-- for set select value -->
+          <!-- old code -->
+          <div class="md-form" style="display: none;">
+            <select class="mdb-select colorful-select dropdown-primary" name="select_breed" id="select_breed" required ng-model="AgricultureItem.breed_info_id">
+              <option value="" disabled>กรุณาเลือก</option>
+              <option ng-repeat="breed in breed_info" value="{{breed.id}}" on-finish-render="ngRepeatFinished">{{breed.name}}</option>
+              </select>
+            <label>สายพันธุ์พืช/สัตว์</label>
+            <small class="red-text" ng-show="form_agriculture.select_breed.$error.required && hasSubmit">This field is required.</small>
+          </div>
+          <!-- old code -->
+
+          <!-- for show select 2 -->
+          <label style="color: #757575; font-size: 0.8rem;">สายพันธุ์พืช/สัตว์</label>
+          <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+              <select class="mdb-select-2 colorful-select dropdown-primary" id="select_breed_select2_show">
+                  <option value="">กรุณาเลือก</option>
+                  <option ng-repeat="breed in breed_info" 
+                          value="{{breed.id}}" 
+                          on-finish-render="ngRepeatFinished"
+                          ng-selected="breed.id == AgricultureItem.breed_info_id"
+                          >{{breed.name}}
+                  </option>
+              </select>
+              <small class="red-text" ng-show="form_agriculture.select_breed.$error.required && hasSubmit">This field is required.</small>
+          </div>
+          <script>
+              $(document).ready(function() {  
+                  $('.mdb-select-2').select2();
+                  $(".select2").css("width","100%");
+                  $(".select2-selection__rendered").css("color","#757575");
+                  $(".select2-selection__rendered").css("color","#757575");
+                  
+                  $( "#select_breed_select2_show" ).change(function() {
+                      var product_id = $(this).val().toString()
+                      $("#select_breed").val(product_id).change();
+
+                      $("#breed_info_explanation").val("").change();
+                  });
+
+                  $( "#select_resource_select2_show" ).change(function() {
+                      var product_id = $(this).val().toString()
+                      $("#select_resource").val(product_id).change();
+
+                      $("#resource_info_explanation").val("").change();
+                      $("#select_breed_select2_show").val("").change();
+                      $("#breed_info_explanation").val("").change();
+                  });
+              });
+          </script>
+          <!-- end select 2 -->
+          
+          <div class="md-form" ng-show="AgricultureItem.breed_info_id == 0">
+            <input type="text"  name="breed_info_explanation" 
+                                id="breed_info_explanation"
+                                class="form-control" 
+                                ng-model="AgricultureItem.breed_info_explanation" 
+                                value="{{ AgricultureItem.breed_info_explanation }}"
+                                ng-required="AgricultureItem.breed_info_id == 0">
+            <label for="breed_info_explanation" ng-class="{'active': AgricultureItem.breed_info_explanation}">
+                ระบุสายพืช/สัตว์
+            </label>
+            <small class="red-text" ng-show="form_agriculture.breed_info_explanation.$error.required && hasSubmit">This field is required.</small>
+          </div>
+                  
+          <!--  -->
+            <div class="md-form">
+
+            <select class="mdb-select colorful-select dropdown-primary" name="select_cultivated_area" id="select_cultivated_area" required ng-model="AgricultureItem.farmer_user_cultivated_area_info_id" >
+                    <option value="" disabled>กรุณาเลือก</option>
+                    <option ng-repeat="cultivated_area in sel_cultivated_area_info" value="{{cultivated_area.id}}" on-finish-render="ngRepeatFinished">{{cultivated_area.name}}</option>
+              </select>
+            <label >ชื่อแปลงเพาะปลูก</label>
+            <small class="red-text" ng-show="form_agriculture.select_cultivated_area.$error.required && hasSubmit">This field is required.</small>
+          </div>
+          <!--  -->
+
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" id="start_datetime" ng-model="AgricultureItem.start_datetime">
+            <label for="start_datetime" ng-class="{'active':AgricultureItem.start_datetime}">เวลาเริ่มต้น</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control datepicker" id="end_datetime" ng-model="AgricultureItem.end_datetime">
+            <label for="end_datetime" ng-class="{'active':AgricultureItem.end_datetime}">เวลาสิ้นสุด</label>
+          </div>
+          <!--  -->
+
+
+            <div class="md-form">
+            <select class="mdb-select colorful-select dropdown-primary" name="money_supplied" id="money_supplied" required ng-model="AgricultureItem.farmer_invest_type_id" >
+                    <option value="" disabled>กรุณาเลือก</option>
+                     <option ng-repeat="invest in sel_farmer_invest_type" value="{{invest.id}}" on-finish-render="ngRepeatFinished">{{invest.name}}</option>
+
+              </select>
+            <label >แหล่งเงินทุน</label>
+            <small class="red-text" ng-show="form_agriculture.money_supplied.$error.required && hasSubmit">This field is required.</small>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="AgricultureItem.area">
+            <label ng-class="{'active':AgricultureItem.area}">พื้นที่ (ไร่)</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="AgricultureItem.gps_lat" ng-value="user_data.gps_lat" disabled>
+            <label class="active">ละติจูด</label>
+          </div>
+          <!--  -->
+          <div class="md-form">
+            <input type="text" class="form-control" ng-model="AgricultureItem.gps_long" ng-value="user_data.gps_long" disabled>
+            <label class="active">ลองติจูด (ไร่)</label>
+          </div>
+          <!--  -->
+            <div class="col-md-12">
+                <label>บริเวณ</label>
+                <!-- สร้างใหม่ -->
+              <ng-map ng-if="!AgricultureItem.id" zoom="15" center='current-position' map-type-id="MapTypeId.ROADMAP">
+                <marker position="current" on-dragend="getCurrentlocation()" animation="DROP" draggable="true" animation="Animation.BOUNCE" centered="true"></marker>
+              </ng-map>
+              <!-- มีข้อมูล -->
+              <ng-map ng-if="AgricultureItem.id" zoom="15" center="{{[AgricultureItem.gps_lat,AgricultureItem.gps_long]}}" map-type-id="MapTypeId.ROADMAP">
+                <marker position="{{[AgricultureItem.gps_lat,AgricultureItem.gps_long]}}" on-dragend="getCurrentlocation()" animation="DROP" draggable="true" animation="Animation.BOUNCE" centered="true"></marker>
+              </ng-map>
+               <label>{{user_data.location_remark}}</label>
+            </div>
+          <!--  -->
+
+          <div class="text-center mt-3">
+            <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table','tab3');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+            <button ng-if="!AgricultureItem.id" ng-disabled="!!form_agriculture.$error.required && hasSubmit" class="btn btn-success" ng-click="funcInsertAgriculture(!!form_agriculture.$error.required);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+             <button ng-if="AgricultureItem.id" ng-disabled="!!form_agriculture.$error.required && hasSubmit" class="btn btn-success" ng-click="funcUpdateAgriculture(!!form_agriculture.$error.required);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+          </div>
+        </div>
+        <!-- /col-xs-12 col-xl-10 -->
+      </div>
+      <!-- /row -->
+        </form>
+    </div>
+    <!-- /FORM -->
+
+</div>
+<!--Panel 3-->

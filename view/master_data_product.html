@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height"  ng-app="KDM">
+
+    <head>
+      <!-- Required meta tags always come first -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>Agriconnect</title>
+
+      <!-- Font Awesome -->
+      <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+      <!-- Bootstrap -->
+      <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Material Design for Bootstrap -->
+      <link href="../assets/css/mdb.css" rel="stylesheet">
+      <link href="../assets/css/style.css" rel="stylesheet">
+      <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+      <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+      <!-- DataTable -->
+      <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+      <!-- select 2 -->
+      <link href="../assets/plugins/select2/select2.min.css" rel="stylesheet" />
+
+    </head>
+
+    <body  class="fixed-sn indigo-skin" ng-controller="MasterDataProductCtrl" ng-init="CheckCookies();">
+        <!--Double navigation-->
+        <div id="side_menu" ng-controller="MenuCtrl" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+        <main>
+            <!--table all account-->
+            <a class="btn-floating btn-lg success-color pull-right" ng-click="showFormAddProduct('add');" ng-if="btn_menu_add"><i class="fa fa-plus"></i></a>
+            <div class="container-fluid mt-5" ng-show="div_table_data_product" ng-init="funcGetDataTable();">
+                <table ui-jq="dataTable" ui-options="ajaxOptions" id="table_data_product" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ชื่อผลผลิต</th>
+                            <th>หน่วย</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!--end table all account-->
+
+            <!-- Form contact -->
+            <div class="container-fluid mt-5"  ng-show="div_add_data_product" ng-init="loadDataResource();">
+                 <form name="add_data_product" id="form_add_data_product" novalidate>
+                    <p class="h5 text-center mb-4" ng-if="form_cmd == 'add'">เพิ่มข้อมูลผลผลิต</p>
+
+                    <div class="md-form">
+                        <input type="text" name="name" id="name" class="form-control" ng-model="name" value="{{name}}" required>
+                        <label for="name" ng-class="{active: name != null}"><i class="fa fa-address-card grey-text"></i> ชื่อผลผลิต</label>
+                    </div>
+
+                    <!-- start select 2 -->
+                    <!-- for set select value -->
+                    <!-- old code -->
+                    <div class="md-form" id="div_resource_info" style="display: none;">
+                        <select class="mdb-select colorful-select dropdown-primary" name="select_resource_info" id="select_resource_info" ng-model="resource_info_id" ng-change="funcGetBreedInfo(resource_info_id)" required >
+                            <option value="" disabled>กรุณาเลือก</option>
+                            <option ng-repeat="resource_info_obj in resource_info" value="{{resource_info_obj.id}}" on-finish-render="ngRepeatFinished">{{resource_info_obj.name}}</option>
+                        </select>
+                        <label><i class="fa fa-users grey-text"></i> พืช/สัตว์</label>
+                        <small style="font-size: 1rem ; font-weight: 300" class="red-text" ng-show="resource_info_id == null && hasSubmit">This field is required.</small>
+                    </div>
+                    <!-- old code -->
+
+                    <!-- for show select 2 -->
+                    <label style="color: #757575; font-size: 0.8rem;">พืช/สัตว์</label>
+                    <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                        <select class="mdb-select-2 colorful-select dropdown-primary" id="select_resource_info_select2_show">
+                            <option value="">กรุณาเลือก</option>
+                            <option ng-repeat="resource_info_obj in resource_info" 
+                                    value="{{resource_info_obj.id}}" 
+                                    on-finish-render="ngRepeatFinished"
+                                    ng-selected="resource_info_obj.id == resource_info_id"
+                                    >{{resource_info_obj.name}}
+                            </option>
+                        </select>
+                        <small style="font-size: 1rem ; font-weight: 300" class="red-text" ng-show="resource_info_id == null && hasSubmit">This field is required.</small>
+                    </div>
+                    <!-- end select 2 -->
+
+                    <div class="md-form" ng-show="resource_info_id == '0'">
+                        <input type="text"  
+                                name="resource_info_explanation" 
+                                id="resource_info_explanation" 
+                                class="form-control" 
+                                ng-model="resource_info_explanation" 
+                                value="{{ resource_info_explanation }}"
+                                ng-required="resource_info_id == 0">
+                        <label for="resource_info_explanation" ng-class="{'active': resource_info_explanation}">
+                            ระบุพืช/สัตว์
+                        </label>
+                    </div>
+
+                    <!-- start select 2 -->
+                    <!-- for set select value -->
+                    <!-- old code -->
+                    <div class="md-form" style="display: none;">
+                        <select class="mdb-select colorful-select dropdown-primary" 
+                                name="select_breed" id="select_breed" 
+                                ng-model="breed_info_id"
+                                required>
+                            <option value="" disabled>กรุณาเลือก</option>
+                            <option ng-repeat="breed in breed_info" 
+                                    value="{{breed.id}}" 
+                                    on-finish-render="ngRepeatFinished"
+                                    >{{breed.name}}
+                            </option>
+                        </select>
+                        <label>สายพันธุ์พืช/สัตว์</label>
+                    </div>
+                    <!-- old code -->
+
+                    <!-- for show select 2 -->
+                    <label style="color: #757575; font-size: 0.8rem;">สายพันธุ์พืช/สัตว์</label>
+                    <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                        <select class="mdb-select-2 colorful-select dropdown-primary" id="select_breed_select2_show">
+                            <option value="">กรุณาเลือก</option>
+                            <option ng-repeat="breed in breed_info" 
+                                    value="{{breed.id}}" 
+                                    on-finish-render="ngRepeatFinished"
+                                    ng-selected="breed.id == breed_info_id"
+                                    >{{breed.name}}
+                            </option>
+                        </select>
+                        <small style="font-size: 1rem ; font-weight: 300" class="red-text" ng-show="breed_info_id == null && hasSubmit">This field is required.</small>
+                    </div>
+                    <!-- end select 2 -->
+
+                    <div class="md-form" ng-show="breed_info_id == '0'">
+                        <input type="text"  name="breed_info_explanation" 
+                                            id="breed_info_explanation"
+                                            class="form-control" 
+                                            ng-model="breed_info_explanation" 
+                                            value="{{ breed_info_explanation }}"
+                                            ng-required="breed_info_id == 0">
+                        <label for="breed_info_explanation" ng-class="{'active': breed_info_explanation}">
+                            ระบุสายพืช/สัตว์
+                        </label>
+                    </div>
+
+                    <div class="md-form">
+                        <input type="text"  name="unit" id="unit" class="form-control" ng-model="unit" value="{{unit}}" required>
+                        <label for="unit" ng-class="{active: unit != null}"><i class="fa fa-user grey-text"></i> หน่วย</label>
+                    </div>
+
+                    <div class="text-center" >
+                        <button class="btn primary-color-dark" ng-click="showTableProduct();"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                        <button class="btn btn-success"  ng-click="SubmitForm(id);hasSubmit=true;"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                    </div>
+
+                </form>
+            </div>
+            <!-- Form contact -->
+
+            <!-- Modal Detail Plant Animal-->
+            <div class="modal fade" id="ProductDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <!--Content-->
+                    <div class="modal-content">
+                        <!--Header-->
+                        <div class="modal-header">
+                            <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลผลผลิต</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!--Body-->
+                        <div class="modal-body">
+
+                            <div class="col-sm-12">
+                                <label>ชื่อผลผลิต : {{name}}</label>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label>พืช/สัตว์ : {{resource_info_name}}</label>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label>หน่วย : {{unit}}</label>
+                            </div>
+
+                        </div>
+                        <!--Footer-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+                        </div>
+                    </div>
+                    <!--/.Content-->
+                </div>
+            </div>
+            <!-- Modal Detail Plant Animal-->
+            <div ng-include="'../view/common_modal_confirm_delete.html'"></div>
+        </main>
+        <!--/.Double navigation-->
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+        <!-- SCRIPTS -->
+         <!-- jQuery -->
+         <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+         <!-- Popper -->
+         <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+         <!-- Bootstrap -->
+         <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+         <!-- DataTable -->
+         <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+         <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+         <!-- Angular -->
+         <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- select 2 -->
+        <script src="../assets/plugins/select2/select2.min.js"></script>
+
+         <!-- Plugins -->
+         <script type="text/javascript" src="../assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+         <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+         <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+         <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+         <!-- ng-map -->
+       <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+       <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+       <!-- ng-file-upload -->
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+         <!-- MDB -->
+         <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+         <!-- App -->
+         <script type="text/javascript" src="../js/core/app.js"></script>
+         <script type="text/javascript" src="../js/core/util.js"></script>
+         <script type="text/javascript" src="../js/common/menu.js"></script>
+         <script type="text/javascript" src="../js/app/master_data_product.js"></script>
+
+        <script>
+            // Material Select Initialization
+            $(document).ready(function() {
+                $("p").text('ข้อมูลผลผลิต');
+
+                $('.mdb-select-2').select2();
+                $(".select2").css("width","100%");
+                $(".select2-selection__rendered").css("color","#757575");
+                $(".select2-selection__rendered").css("color","#757575");
+                
+                $( "#select_breed_select2_show" ).change(function() {
+                    var product_id = $(this).val().toString()
+                    $("#select_breed").val(product_id).change();
+                    
+                    $("#breed_info_explanation").val("").change();
+                });
+
+                $( "#select_resource_info_select2_show" ).change(function() {
+                    var product_id = $(this).val().toString()
+                    $("#select_resource_info").val(product_id).change();
+                    
+                    $("#resource_info_explanation").val("").change();
+                    $("#select_breed_select2_show").val("").change();
+                    $("#breed_info_explanation").val("").change();
+                });
+            });
+            new WOW().init();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<div class="modal fade" id="DataFeederDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลสภาพดิน</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>วันที่/เวลา : {{objDataFeederItem.data_datetime}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ละติจูด : {{objDataFeederItem.gps_lat}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ลองติจูด : {{objDataFeederItem.gps_long}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เมือง : {{objDataFeederItem.city}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ประเทศ : {{objDataFeederItem.country}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ประเภทพื้นที่ : {{objDataFeederItem.soil_area_type_id}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ประเภทของดิน : {{objDataFeederItem.soil_type_id}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>คะแนนปริมาณแร่ธาตุอาหาร : {{objDataFeederItem.mineral_score}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>คะแนนความร่วนซุย : {{objDataFeederItem.crumbly_score}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณความเป็นกรดเป็นด่าง (pH) : {{objDataFeederItem.ph_value}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณน้ำฝนต่อเดือน (mm) : {{objDataFeederItem.rain_qty_mmpm}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>อุณหภูมิสูงสุดในรอบปี (Celsius) : {{objDataFeederItem.temp_celsius_max}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>อุณหภูมิเฉลี่ยในรอบปี (Celsius) : {{objDataFeederItem.temp_celsius_avg}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>อุณหภูมิต่ำสุดในรอบปี (Celsius) : {{objDataFeederItem.temp_celsius_min}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณโดนแดดในตอนกลางวัน (%) : {{objDataFeederItem.sunlight_percent}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ความแรงลมโดยเฉลี่ยต่อเดือน : {{objDataFeederItem.wind_speed}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ทิศทางลมโดยเฉลี่ยต่อเดือน : {{objDataFeederItem.wind_direction_degree}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height"  ng-app="KDM">
+
+    <head>
+      <!-- Required meta tags always come first -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>Agriconnect</title>
+
+      <!-- Font Awesome -->
+      <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <link href="../assets/plugins/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.css" rel="stylesheet">
+
+      <!-- Bootstrap -->
+      <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+      <!-- Material Design for Bootstrap -->
+      <link href="../assets/css/mdb.css" rel="stylesheet">
+      <link href="../assets/css/style.css" rel="stylesheet">
+      <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+      <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+      <!-- DataTable -->
+      <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    </head>
+
+    <body  class="fixed-sn indigo-skin" ng-controller="dataFeederCompetitiveCountryDataCtrl" ng-init="CheckCookies();">
+
+        <div id="side_menu" ng-controller="MenuCtrl" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+        <main>
+
+        <!-- table certificate type -->
+        <a class="btn-floating btn-lg success-color pull-right" ng-click="showFormAddFeederCompetitiveCountryData('add');" ng-if="btn_menu_add"><i class="fa fa-plus"></i></a>
+        <div class="container-fluid mt-5" ng-show="div_table_data_feeder_competitive_country">
+            <table ui-jq="dataTable" ui-options="ajaxOptions" id="table_data_feeder_competitive_country" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>ชื่อประเทศ</th>
+                        <th>ทรัพยากร (พืช/สัตว์)</th>
+                        <th>ระยะเวลาเริ่มต้นโรค</th>
+                        <th>ระยะเวลาสิ้นสุดโรค</th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- table certificate type -->
+
+        <!-- Form-->
+        <div class="container-fluid mt-5"  ng-show="div_add_data_feeder_competitive_country" >
+             <form name="add_data_certificate" id="form_add_data_feeder_competitive_country" novalidate>
+                <p class="h5 text-center mb-4" ng-if="form_cmd == 'add'">เพิ่มข้อมูลชลประทานจากแหล่งข้อมูลภายนอกข้อมูลส่วนตัว</p>
+
+                <div class="md-form">
+                    <input type="text" name="country" id="country" class="form-control" ng-model="country" ng-value="country" required>
+                    <label for="country" ng-class="{active : country }"><i class="fa fa-address-card grey-text"></i> ชื่อประเทศ</label>
+                </div>
+
+                <div class="md-form" ng-init="loadDataResourceInfo();" id="div_diseases_info">
+                    <select class="mdb-select colorful-select dropdown-primary" name="select_resource_info" id="select_resource_info" ng-model="select_resource_info"  required>
+                        <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="data_obj in resource_info" value="{{data_obj.id}}" >{{data_obj.name}}</option>
+                    </select>
+                    <label><i class="fa fa-users grey-text"></i> ข้อมูลโรคพืช/สัตว์</label>
+                    <div class="red-text" ng-show="add_data_certificate.select_resource_info.$error.required && hasSubmit">This field is required.</div>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="datetime_start" class="form-control" data-dtp="dtp_YY17A" ng-model="datetime_start" ng-value="datetime_start">
+                    <label for="datetime_start" ng-class="{'active' : datetime_start}" >ระยะเวลาเริ่มต้นโรค</label>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" id="datetime_end" class="form-control" data-dtp="dtp_YY17A" ng-model="datetime_end" ng-value="datetime_end">
+                    <label for="datetime_end" ng-class="{'active' : datetime_end}" >ระยะเวลาสิ้นสุดโรค</label>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn primary-color-dark" ng-click="showTableDataFeederCompetitiveCountryData();"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                    <button class="btn btn-success" ng-disabled="!!add_data_certificate.$error.required && hasSubmit" ng-click="SubmitForm(id);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                </div>
+
+
+
+            </form>
+        </div>
+        <div ng-include="'../view/common_modal_confirm_delete.html'"></div>
+        <!-- Form-->
+        </main>
+
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+
+        <!-- SCRIPTS -->
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+        <!-- Popper -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+        <!-- DataTable -->
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Angular -->
+        <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- Plugins -->
+        <script type="text/javascript" src="../assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+        <script type="text/javascript" src="../assets/plugins/moment/moment.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.js"></script>
+        <!-- ng-map -->
+        <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+        <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+        <!-- ng-file-upload -->
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+
+        <!-- MDB -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+        <!-- App -->
+        <script type="text/javascript" src="../js/core/app.js"></script>
+        <script type="text/javascript" src="../js/core/util.js"></script>
+        <script type="text/javascript" src="../js/common/menu.js"></script>
+        <script type="text/javascript" src="../js/app/data_feeder_competitive_country_data.js"></script>
+
+        <script>
+            // Material Select Initialization
+            $(document).ready(function() {
+                $("p").text('ข้อมูลประเทศคู่แข่งทางการค้า');
+            });
+            new WOW().init();
+        </script>
+    </body>
+</html>

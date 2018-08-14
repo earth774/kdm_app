@@ -1,0 +1,55 @@
+<div class="modal fade" id="DataFeederDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลสัญญาณจากโรคพืช</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อโรค : {{objDataFeederItem.name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>รายละเอียดของโรค : {{objDataFeederItem.description}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>พาหะนำโรค : {{objDataFeederItem.carriers_diseases}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วันที่เกิดโรค : {{objDataFeederItem.datetime_diseases|limitTo:10:0}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>พื้นที่ที่ได้รับผลกระทบ : {{objDataFeederItem.effect_area}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>พืชที่ได้รับผลกระทบ : {{objDataFeederItem.effect_resource}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>วิธีป้องกัน : {{objDataFeederItem.protection_instruction}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>สถานะการระบาด : {{objDataFeederItem.still_scourge}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

@@ -1,0 +1,623 @@
+<!--------------- Panel 1 ------------------>
+<div class="modal fade" id="DetailCommittee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลกรรมการ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อ : {{objCommittee.name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ที่อยู่ : {{objCommittee.address}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เบอร์โทร่ศัพท์ : {{objCommittee.phone}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>หมายเลขบัตรประชาชน : {{objCommittee.tax_id}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!-- +++++++++++++++เพิ่มข้อมูลสกกรณ์++++++++++++ -->
+<div class="modal fade" id="addCooperativeData"  role="dialog" aria-labelledby="addCooperativeData" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">เพิ่มข้อมูลสหกรณ์</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+              <div class="md-form">
+                <input type="text" class="form-control" ng-model="cooperate_data.president_name" id="president_name">
+                <label for="president_name" ng-class="{'active':cooperate_data.president_name}">ประธานสหกรณ์</label>
+              </div>
+              <!-- + -->
+              <div class="md-form">
+                <input type="text" class="form-control" ng-model="cooperate_data.manager_name" id="manager_name">
+                <label for="manager_name" ng-class="{'active':cooperate_data.manager_name}">ผู้จัดการสหกรณ์</label>
+              </div>
+              <!-- + -->
+              <div class="md-form">
+                <input type="text" class="form-control datepicker" ng-model="cooperate_data.start_date_time" id="start_date_time">
+                <label for="start_date_time" ng-class="{'active':cooperate_data.start_date_time}">วาระเริ่มต้น</label>
+              </div>
+              <!-- + -->
+              <div class="md-form">
+                <input type="text" class="form-control datepicker" ng-model="cooperate_data.end_date_time" id="end_date_time">
+                <label for="end_date_time" ng-class="{'active':cooperate_data.end_date_time}">วาระสิ้นสุด</label>
+              </div>
+
+
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+
+                <button ng-if="!cooperate_data.id" type="button" class="btn primary-color-dark" ng-click="funcInsertCoorperat(cooperate_data);">บันทึก</button>
+                <button ng-if="cooperate_data.id" type="button" class="btn primary-color-dark" ng-click="funcUpdateCoorperat(cooperate_data);">บันทึก</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--------------- Panel 2 ------------------>
+<div class="modal fade" id="DetailCultivatedArea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลแปลงเพาะปลูก</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+              <div class="col-sm-12">
+                  <label>ชื่อแปลง : {{objCultivatedArea.name}}</label>
+              </div>
+                <div class="col-sm-12">
+                    <label>หมายเลขโฉนด : {{objCultivatedArea.deed_no}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>แหล่งชลประทาน : {{objCultivatedArea.irrigation_info_id}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>พื้นที่แปลงเพาะปลูก (ไร่) : {{objCultivatedArea.area}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ละติจูด : {{objCultivatedArea.gps_lat}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ลองติจูด : {{objCultivatedArea.gps_long}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>รูปภาพแปลงเพาะปลูก : {{objCultivatedArea.img_path}}</label>
+                </div>
+                <div class="col-sm-12">
+                  <ng-map id="MapDetailCultivatedArea" zoom="13" center="[{{objCultivatedArea.gps_lat}},{{objCultivatedArea.gps_long}}]" map-type-id="MapTypeId.ROADMAP">
+                    <marker position="{{[objCultivatedArea.gps_lat,objCultivatedArea.gps_long]}}" animation="DROP" animation="Animation.BOUNCE" centered="true"></marker>
+                  </ng-map>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--------------- Panel 3 ------------------>
+<div class="modal fade" id="DetailAgriculture" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลเพาะปลูก</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+              <div class="col-sm-12">
+                  <label>ชื่อรอบการเพาะปลูก : {{objAgriculture.name}}</label>
+              </div>
+
+                <div class="col-sm-12">
+                    <label>ชื่อพืช/สัตว์ ที่ปลูก : {{objAgriculture.resource_info_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>สายพันธุ์พืช/สัตว์ : {{objAgriculture.breed_info_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>รายละเอียด สายพันธุ์พืช/สัตว์ : {{objAgriculture.breed_info_explanation}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ชื่อแปลงเพาะปลูก : {{objAgriculture.farmer_user_cultivated_area_info_id}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>เวลาเริ่มต้น : {{objAgriculture.start_datetime}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>เวลาสิ้นสุด : {{objAgriculture.end_datetime}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>แหล่งเงินทุน : {{objAgriculture.farmer_invest_type_name}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>พื้นที่ (ไร่) : {{objAgriculture.area}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>บริเวณ</label>
+                </div>
+                <div class="col-sm-12">
+                  <ng-map id="MapDetailAgriculture" zoom="10" center="{{[objAgriculture.gps_lat,objAgriculture.gps_long]}}" map-type-id="MapTypeId.ROADMAP">
+                    <marker  position="{{[objAgriculture.gps_lat,objAgriculture.gps_long]}}" animation="DROP" animation="Animation.BOUNCE" centered="true"></marker>
+                  </ng-map>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--------------- Panel 4 ------------------>
+<div class="modal fade" id="detailFarmerProductions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลผลผลิต</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อผลผลิต : {{objFarmerProduction.product_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณผลผลิตที่คาดว่าจะได้รับ : {{objFarmerProduction.expect_outcome}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ปริมาณผลผลิตจริงที่ได้รับ : {{objFarmerProduction.exact_outcome}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>วันเวลาที่คาดว่าจะได้รับผลผลิต : {{objFarmerProduction.expect_datetime|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>วันเวลาที่ได้รับผลผลิตจริง : {{objFarmerProduction.exact_datetime|limitTo:10:0}}</label>
+                </div>
+                <div class="col-sm-12">
+                    <label>เงินที่คาดว่าจะได้จากการขายผลผลิต : {{objFarmerProduction.expect_revenue}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!--------------- Panel 5 ------------------>
+<div class="modal fade" id="detailGap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลมาตรฐาน GAP</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>เลขที่โฉนด : {{objGap.deed_no}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เลขที่ใบรับรอง : {{objGap.cerificate_no}}</label>
+                </div>
+
+                <div class="col-sm-12" ng-init="funcGetGepTitleInfo(); funcGetGepItemInfo();">
+                    <!--Accordion wrapper-->
+                    <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true" ng-repeat="gap_standard_title in gap_standard_title_info">
+
+                        <!-- Accordion card -->
+                        <div class="card">
+
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="heading{{gap_standard_title.id}}">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse{{gap_standard_title.id}}" aria-expanded="false" aria-controls="collapse{{gap_standard_title.id}}">
+                                    <h5 class="mb-0">
+                                        {{gap_standard_title.item_no_str}} {{gap_standard_title.title}} <i class="fa fa-angle-down rotate-icon"></i>
+                                    </h5>
+                                </a>
+                            </div>
+
+                            <!-- Card body -->
+                            <div id="collapse{{gap_standard_title.id}}" class="collapse" role="tabpanel" aria-labelledby="heading{{gap_standard_title.id}}">
+                                <div class="card-body">
+                                    <div class="form-group" ng-repeat="gap_standard_item in gap_standard_item_info | filter:{gap_standard_title_info_id: gap_standard_title.id}">
+                                        <input type="checkbox" id="checkbox_{{gap_standard_title.id}}_{{gap_standard_item.order}}">
+                                        <label for="checkbox_{{gap_standard_title.id}}_{{gap_standard_item.order}}">{{gap_standard_item.item_no_str}} {{gap_standard_item.title}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Accordion card -->
+                    </div>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--------------- Panel 6 ------------------>
+<div class="modal fade" id="detailIfoam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลมาตรฐาน IFOAM</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>เลขที่โฉนด : {{objIfoam.deed_no}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>เลขที่ใบรับรอง : {{objIfoam.cerificate_no}}</label>
+                </div>
+
+                <div class="col-sm-12" ng-init="funcGetIfoamTitleInfo(); funcGetIfoamLV2TitleInfo(); funcGetIfoamLV3TitleInfo(); funcGetIfoamLV4TitleInfo();">
+                    <!--Accordion wrapper Title-->
+                    <div class="accordion" id="ifoamlistdt" role="tablist" aria-multiselectable="true" ng-repeat="ifoam_standard_title in ifoam_standard_title_info">
+                        <!-- Accordion card Title-->
+                        <div class="card">
+                            <!-- Card header Title-->
+                            <div class="card-header" role="tab" id="heading{{ifoam_standard_title.id}}_dt">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#ifoamlistdt" href="#collapse{{ifoam_standard_title.id}}_dt" aria-expanded="false" aria-controls="collapse{{ifoam_standard_title.id}}_dt">
+                                    <h5 class="mb-0">
+                                       {{ifoam_standard_title.item_no_str}} {{ifoam_standard_title.title}} <i class="fa fa-angle-down rotate-icon"></i>
+                                    </h5>
+                                </a>
+                            </div>
+                            <!-- Card body Title-->
+                            <div id="collapse{{ifoam_standard_title.id}}_dt" class="collapse" role="tabpanel" aria-labelledby="heading{{ifoam_standard_title.id}}_dt">
+                                <div class="card-body" >
+                                    <!--start LV2 -->
+                                    <!--Accordion wrapper LV2-->
+                                    <div class="accordion" id="ifoamlistLV2dt" role="tablist" aria-multiselectable="true" ng-repeat="ifoam_standard_lv2_title in ifoam_standard_lv2_title_info | filter:{ifoam_standard_title_info_id: ifoam_standard_title.id}">
+                                        <!-- Accordion card LV2-->
+                                        <div class="card">
+                                            <!-- Card header LV2-->
+                                            <div class="card-header" role="tab" id="heading_LV2_{{ifoam_standard_lv2_title.id}}_dt">
+                                                <a data-toggle="collapse" data-parent="#ifoamlistLV2dt" href="#collapse_LV2_{{ifoam_standard_lv2_title.id}}_dt" aria-expanded="false" aria-controls="collapse_LV2_{{ifoam_standard_lv2_title.id}}_dt">
+                                                    <h5 class="mb-0">
+                                                       {{ifoam_standard_lv2_title.item_no_str}} {{ifoam_standard_lv2_title.title}} <i class="fa fa-angle-down rotate-icon"></i>
+                                                    </h5>
+                                                </a>
+                                            </div>
+                                            <!-- Card body LV2-->
+                                            <div id="collapse_LV2_{{ifoam_standard_lv2_title.id}}_dt" class="collapse" role="tabpanel" aria-labelledby="heading_LV2_{{ifoam_standard_lv2_title.id}}_dt">
+                                                <div class="card-body" >
+                                                    <!--start LV3 -->
+                                                    <div ng-repeat="ifoam_standard_lv3_title in ifoam_standard_lv3_title_info | filter:{ifoam_standard_lv2_title_info_id: ifoam_standard_lv2_title.id}">
+                                                        <div class="form-group"  ng-switch="ifoam_standard_lv3_title.has_child">
+                                                            <input type="checkbox" id="checkbox_{{ifoam_standard_lv3_title.id}}_{{ifoam_standard_lv3_title.order}}" ng-switch-when="0">
+                                                            <label for="checkbox_{{ifoam_standard_lv3_title.id}}_{{ifoam_standard_lv3_title.order}}" ng-switch-when="0">{{ifoam_standard_lv3_title.item_no_str}} {{ifoam_standard_lv3_title.title}}</label>
+
+                                                            <h6 ng-switch-when="1" style="padding-left: 35px;">{{ifoam_standard_lv3_title.item_no_str}} {{ifoam_standard_lv3_title.title}}</h6>
+                                                        </div>
+                                                        <!--start LV4 -->
+                                                        <div ng-repeat="ifoam_standard_lv4_title in ifoam_standard_lv4_title_info | filter:{ifoam_standard_lv3_title_info_id: ifoam_standard_lv3_title.id}">
+                                                            <div class="form-group" style="padding-left: 35px;">
+                                                                <input type="checkbox" id="checkbox_LV4_{{ifoam_standard_lv4_title.id}}_{{ifoam_standard_lv4_title.order}}">
+                                                                <label for="checkbox_LV4_{{ifoam_standard_lv4_title.id}}_{{ifoam_standard_lv4_title.order}}">{{ifoam_standard_lv4_title.item_no_str}} {{ifoam_standard_lv4_title.title}}</label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end LV4-->
+                                                    </div>
+                                                    <!--end LV3-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Accordion card -->
+                                    </div>
+                                    <!--end LV2-->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Accordion card -->
+                    </div>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+
+<!--------------- Panel 7 ------------------>
+<div class="modal fade" id="detailInterStandard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลมาตรฐานนานาชาติ</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>เลขที่ : {{objInterStandard.cerificate_no}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>ประเภทใบรับรอง : {{objInterStandard.cerificate_type_name}}</label>
+                </div>
+
+                <div class="col-sm-12">
+                    <label>รูปภาพใบรับรอง : {{objInterStandard.img_path}}</label>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--------------- Panel 8 ------------------>
+<div class="modal fade" id="detailInspection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">รายละเอียดข้อมูลผู้ตรวจแปลง</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label>ชื่อ : {{objInspection.fullname}}</label>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--------------- Panel Extra ------------------>
+<div class="modal fade" id="detailExtraInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <div ng-switch="objExtraInfo.farmer_extra_type_id">
+                    <div ng-switch-when="1">
+                        <h4 class="modal-title w-100" id="myModalLabel">ข้อมูลการเกษตร</h4>
+                    </div>
+                    <div ng-switch-when="2">
+                        <h4 class="modal-title w-100" id="myModalLabel">ข้อมูลการปศุสัตว์</h4>
+                    </div>
+                    <div ng-switch-when="3">
+                        <h4 class="modal-title w-100" id="myModalLabel">ข้อมูลการประมง</h4>
+                    </div>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div ng-switch="objExtraInfo.farmer_extra_type_id">
+                    <div ng-switch-when="1">
+                        <div class="col-sm-12">
+                            <label>พืชที่เพาะปลูก : {{objExtraInfo.resource_name}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ขนาดแปลงปลูก : {{objExtraInfo.area}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ผลผลิตที่ได้โดยประมาณ : {{objExtraInfo.production_qty}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ต้นทุนในการปลูกต่อรอบ : {{objExtraInfo.cost}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรที่ได้ต่อรอบการผลิต(ไม่หักต้นทุน) : {{objExtraInfo.revenue}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรสุทธิที่ได้ต่อรอบการผลิต : {{objExtraInfo.profit}}</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div class="col-sm-12">
+                            <label>สัตว์ที่เพาะเลี้ยง : {{objExtraInfo.resource_name}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ขนาดโรงเลี้ยงและจำนวน : {{objExtraInfo.area}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ผลผลิตที่ได้โดยประมาณ : {{objExtraInfo.production_qty}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ต้นทุนในการเลี้ยงต่อเดือน : {{objExtraInfo.cost}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรที่ได้ต่อรอบการผลิตหรือต่อเดือน(ไม่หักต้นทุน) : {{objExtraInfo.revenue}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรสุทธิที่ได้ต่อรอบการเพาะเลี้ยงหรือต่อเดือน : {{objExtraInfo.profit}}</label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="3">
+                        <div class="col-sm-12">
+                            <label>สัตว์ที่เพาะเลี้ยง : {{objExtraInfo.resource_name}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ขนาดกระชังและจำนวน : {{objExtraInfo.area}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ผลผลิตที่ได้โดยประมาณ : {{objExtraInfo.production_qty}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>ต้นทุนในการเลี้ยงต่อเดือน : {{objExtraInfo.cost}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรที่ได้ต่อรอบการผลิตหรือต่อเดือน(ไม่หักต้นทุน) : {{objExtraInfo.revenue}}</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>กำไรสุทธิที่ได้ต่อรอบการเพาะเลี้ยงหรือต่อเดือน : {{objExtraInfo.profit}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label>จำนวนพ่อค้าที่ทำการซื้อขายด้วย : {{objExtraInfo.merchant_number}}</label>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label>แหล่งที่นำไปขาย : {{objExtraInfo.source_market}}</label>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label>แหล่งซื้อวัตถุดิบ : {{objExtraInfo.source_material}}</label>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label><b>มาตรฐานที่ได้รับ</b> : {{objExtraInfo.standard}}</label>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <label style="max-width: 300px; word-wrap: break-word"><strong>ข้อจำกัดปัญหาหรืออุปสรรคที่ท่านได้รับ</strong> : {{objExtraInfo.remark}}</label>
+                    </div>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+
+<!--Modal: modalConfirmDelete-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content text-center">
+                <!--Header-->
+                <div class="modal-header d-flex justify-content-center">
+                    <p class="heading">คุณแน่ใจว่าต้องการลบข้อมูลนี้?</p>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+
+                    <i class="fa fa-trash fa-4x animated rotateIn"></i>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    <button class="btn  btn-outline-secondary-modal" ng-click="delData(data_alert)">ใช่</button>
+                    <button type="button" class="btn  btn-primary-modal waves-effect" data-dismiss="modal">ไม่</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!--Modal: modalConfirmDelete-->

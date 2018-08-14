@@ -1,0 +1,29 @@
+<div class="modal fade" id="ConfirmDel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-danger" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">กรุณายืนยันการลบข้อมูล</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+
+                <div class="col-sm-12">
+                    <label><i class="fa fa-trash fa-2x " aria-hidden="true"></i> ยืนยันการลบข้อมูล : {{del_data}}</label>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="DeleteData(del_id);">ใช่</button>
+                <button type="button" class="btn primary-color-dark" data-dismiss="modal">ไม่</button>
+
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>

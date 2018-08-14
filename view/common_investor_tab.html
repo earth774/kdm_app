@@ -1,0 +1,151 @@
+<div ng-if="activeTab == 'tab2'" class="tab-pane fade" ng-class="{'in show active':activeTab == 'tab2'}" id="tab2" role="tabpanel" >
+    <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab2 == 'table'" ng-click="switchPage('form', 'tab2')">
+        <i class="fa fa-plus"></i>
+    </a>
+    <div ng-if="page_tab2 == 'table'" ng-init="funcGetInvestorInterestByID();" >
+        <table ui-jq="dataTable" ui-options="ajaxBuyOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_investor_interest">
+            <thead>
+                <tr>
+                    <th>พืช/สัตว์</th>
+                    <th>จำนวนเงินลงทุน</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /page table -->
+    <div ng-if="page_tab2 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetResourceInfo();funcGetFarmerCorpInfo();">
+        <form name="form_investor_tab">
+
+
+        <div class="row justify-content-md-center">
+            <div class="col-xs-12 col-xl-10">
+                <!--  -->
+
+                <!-- start select 2 -->
+                <!-- for set select value -->
+                <!-- old code -->
+                <div class="md-form" style="display: none;">
+                    <select class="mdb-select colorful-select dropdown-primary"
+                            name="select_resource" id="select_resource"  
+                            ng-model="investItem.resource_info_id" 
+                            required>
+                        <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="resource in resource_info" 
+                                value="{{resource.id}}"
+                                on-finish-render="ngRepeatFinishedResource"
+                                >{{resource.name}}
+                        </option>
+                    </select>
+                    <label>ชื่อผลผลิต</label>
+                    <small class="red-text" ng-show="form_investor_tab.select_resource.$error.required && hasSubmit">This field is required.</small>
+                </div>
+                <!-- old code -->
+
+                <!-- for show select 2 -->
+                <label style="color: #757575; font-size: 0.8rem;">ชื่อผลผลิต</label>
+                <div class="md-form" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                    <select class="mdb-select-2 colorful-select dropdown-primary" id="select_resource_select2_show">
+                        <option value="">กรุณาเลือก</option>
+                        <option ng-repeat="resource in resource_info" 
+                                value="{{resource.id}}"
+                                on-finish-render="ngRepeatFinishedResource"
+                                ng-selected="resource.id == investItem.resource_info_id"
+                                >{{resource.name}}
+                        </option>
+                    </select>
+                    <small class="red-text" ng-show="form_investor_tab.select_resource.$error.required && hasSubmit">This field is required.</small>
+                </div>
+
+                <div class="md-form" ng-show="investItem.resource_info_id == '0'">
+                    <input type="text"  
+                            name="resource_info_explanation" 
+                            id="resource_info_explanation" 
+                            class="form-control" 
+                            ng-model="investItem.resource_info_explanation" 
+                            value="{{ investItem.resource_info_explanation }}"
+                            ng-required="investItem.resource_info_id == 0">
+                    <label for="resource_info_explanation" ng-class="{'active': investItem.resource_info_explanation}">
+                        ระบุชื่อผลผลิต
+                    </label>
+                    <small class="red-text" ng-show="form_investor_tab.resource_info_explanation.$error.required && hasSubmit">This field is required.</small>
+                </div>
+
+                <script>
+                    $(document).ready(function() {  
+                        $('.mdb-select-2').select2();
+                        $(".select2").css("width","100%");
+                        $(".select2-selection__rendered").css("color","#757575");
+                        $(".select2-selection__rendered").css("color","#757575");
+                        
+                        $( "#select_resource_select2_show" ).change(function() {
+                            var product_id = $(this).val().toString()
+                            $("#select_resource").val(product_id).change();
+                        });
+                    });
+                </script>
+                <!-- end select 2 -->
+
+                <!--  -->
+                <!--div class="md-form">
+                  <select class="mdb-select colorful-select dropdown-primary" name="select_crop" id="select_crop" required ng-model="investItem.farmer_user_crop_id" >
+                          <option value="" disabled>กรุณาเลือก</option>
+                          <option ng-repeat="farmer_user_crop in farmer_user_crop_list" value="{{farmer_user_crop.id}}"
+                                  on-finish-render="ngRepeatFinishedCrop">{{farmer_user_crop.name}}</option>
+                    </select>
+                  <label>รอบการเพาะปลูก</label>
+                </div-->
+
+                <div class="md-form">
+                    <select class="mdb-select colorful-select dropdown-primary"
+                            name="province_id" id="province_id"  
+                            ng-model="investItem.province_id" 
+                            required>
+                        <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="province in provinces" 
+                                value="{{province.id}}"
+                                on-finish-render="ngRepeatFinishedResource"
+                                >{{province.prov_name}}
+                        </option>
+                    </select>
+                    <label>จังหวัด_{{ investItem.province_id }}</label>
+                    <small class="red-text" ng-show="form_investor_tab.province_id.$error.required && hasSubmit">This field is required.</small>
+                </div>
+
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investItem.invest_money">
+                    <label ng-class="{'active':investItem.invest_money}">เงินลงทุน</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investItem.expect_profit_percent">
+                    <label ng-class="{'active':investItem.expect_profit_percent}">กำไรที่คาดหวัง (%)</label>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investItem.risk_accept_percent">
+                    <label ng-class="{'active':investItem.risk_accept_percent}">ความเสี่ยงที่รับได้ (%)</label>
+                </div>
+                <!--  -->
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investItem.return_time_year">
+                    <label ng-class="{'active':investItem.return_time_year}">ระยะเวลาคืนทุน (ปี)</label>
+                </div>
+                <!--  -->
+                <div class="text-center">
+                    <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table', 'tab2');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                    <button ng-disabled="!!form_investor_tab.$error.required && hasSubmit" ng-show="!investItem.id" class="btn btn-success" ng-click="funcInsertInvestItem(!!form_investor_tab.$error.required);hasSubmit=true;"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                    <button ng-disabled="!!form_investor_tab.$error.required && hasSubmit" ng-show="investItem.id" class="btn btn-success" ng-click="funcUpdateInvestItem(!!form_investor_tab.$error.required);hasSubmit=true;"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                </div>
+            </div>
+            <!-- /col-xs-12 col-xl-10 -->
+        </div>
+        <!-- /row -->
+        </form>
+    </div>
+    <!-- /page form -->
+</div>

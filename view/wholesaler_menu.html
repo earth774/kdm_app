@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height" ng-app="KDM">
+
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Agriconnect</title>
+
+        <!-- Font Awesome -->
+        <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="../assets/css/mdb.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+        <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+        <!-- DataTable -->
+        <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+        <!-- select 2 -->
+        <link href="../assets/plugins/select2/select2.min.css" rel="stylesheet" />
+
+    </head>
+
+    <body class="fixed-sn indigo-skin" ng-controller="WholeSalerCtrl" ng-init="CheckCookies();">
+
+        <!--Double navigation-->
+        <div id="side_menu"  ng-include="'../common/menu.html'" ng-controller="MenuCtrl" ng-init="showMenu(); funcCheckUserRole();funcGetCerificateType()"></div>
+        <main>
+            <!-- Form contact -->
+            <div class="container-fluid">
+                <!-- <form name="resource_view" novalidate="novalidate"> -->
+                    <div ng-include="'../view/common_admin_view.html'"></div>
+                    <div ng-if="!check_admin" ><!-- เพิ่มเติม ng-if="!check_admin" check_admin -->
+                        <!--  -->
+                        <!-- =============================== -->
+                        <!-- Tab panels -->
+                        <div ng-include="'../view/common_buy_sell_tab.html'"></div>
+                        <div class="tab-content card mb-5">
+                            <div ng-if="activeTab == 'tab1'" class="tab-pane fade " ng-class="{'in show active':activeTab == 'tab1'}" id="tab1" role="tabpanel" ng-init="funcGetUserDataByID();">
+                                <div class="row justify-content-md-center">
+                                    <div class="col-xs-12 col-xl-10">
+                                        <div ng-include="'../view/common_new_profile.html'"></div>
+                                    </div>
+                                    <!-- /col-xs-12 col-xl-10 -->
+                                </div>
+                                <!-- /row -->
+                            </div>
+                            <div ng-include="'../view/common_buying_item_info_tab.html'"></div>
+                            <div ng-include="'../view/common_selling_item_info_tab.html'"></div>
+                        </div>
+                        <!-- =============================== -->
+                        <!--  -->
+                    </div>
+                <!-- </form> -->
+            </div>
+            <!-- Modal Detail Product -->
+            <div ng-include="'../view/common_product_buy_sell_modal.html'"></div>
+            <!-- Modal Conferm Delete-->
+            <div ng-include="'../view/common_modal_confirm_delete.html'"></div>
+            
+        </main>
+        <!-- Form contact -->
+
+        <!--/.Double navigation-->
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+        <!-- SCRIPTS -->
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+        <!-- Popper -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+        <!-- DataTable -->
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Angular -->
+        <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- select 2 -->
+        <script src="../assets/plugins/select2/select2.min.js"></script>
+
+        <!-- Plugins -->
+        <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+        <!-- ng-map -->
+        <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+        <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+        <!-- ng-file-upload -->
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+        <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+
+        <!-- App -->
+        <script type="text/javascript" src="../js/core/app.js"></script>
+        <script type="text/javascript" src="../js/core/util.js"></script>
+        <script type="text/javascript" src="../js/common/menu.js"></script>
+        <script type="text/javascript" src="../js/app/wholesaler_menu.js"></script>
+
+        <script>
+                // Material Select Initialization
+                $(document).ready(function() {
+                $("p").text('พ่อค้าคนกลาง');
+                });
+                new WOW().init();
+        </script>
+    </body>
+
+</html>

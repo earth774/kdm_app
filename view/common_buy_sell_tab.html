@@ -1,0 +1,28 @@
+<div class="tabs-wrapper">
+  <ul class="nav classic-tabs tabs-cyan" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab1'}" data-toggle="tab" href="#tab1" role="tab"
+      ng-click="funcSwitchTab('tab1');clearData()">
+        ข้อมูลส่วนตัว
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab2'}" data-toggle="tab" href="#tab2" role="tab"
+      ng-click="funcSwitchTab('tab2');clearData()">
+        <span ng-if="user_type_id==3">ร้าน</span><span ng-if="user_type_id==4">ห้าง/ตลาด</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab3'}" data-toggle="tab" href="#tab3" role="tab"
+      ng-click="funcSwitchTab('tab3');clearData()">
+        ผลผลิตที่ต้องการซื้อ
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link waves-light" ng-class="{'active':activeTab=='tab4'}" data-toggle="tab" href="#tab4" role="tab"
+      ng-click="funcSwitchTab('tab4');clearData()">
+        ผลผลิตที่ต้องการขาย
+      </a>
+    </li>
+  </ul>
+</div>

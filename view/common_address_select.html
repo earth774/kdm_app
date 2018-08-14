@@ -1,0 +1,26 @@
+<div class="md-form" id="div_select_province">
+  <select class="mdb-select colorful-select dropdown-primary" name="select_province" id="select_province" required ng-model="user_data.province_id" ng-change="getDistrict(user_data.province_id)">
+      <option value="" disabled>กรุณาเลือก</option>
+      <option ng-repeat="province in provinces" value="{{province.id}}" on-finish-render="ngRepeatFinishedProvince">{{province.prov_name}}</option>
+  </select>
+  <label>จังหวัด </label>
+  <small class="red-text" ng-show="form_profile.select_province.$error.required && hasSubmit">This field is required.</small>
+</div>
+<!--  -->
+<div class="md-form" id="div_select_district">
+  <select class="mdb-select colorful-select dropdown-primary" name="select_district" id="select_district" required ng-model="user_data.district_id" ng-change="getSubDistrict(user_data.district_id)">
+      <option value="" disabled>กรุณาเลือก</option>
+      <option ng-repeat="district in districts" value="{{district.id}}" on-finish-render="ngRepeatFinishedDistrict">{{district.dist_name}}</option>
+  </select>
+  <label>อำเภอ</label>
+   <small class="red-text" ng-show="form_profile.select_district.$error.required && hasSubmit">This field is required.</small>
+</div>
+<!--  -->
+<div class="md-form" id="div_sub_district">
+  <select class="mdb-select colorful-select dropdown-primary" name="select_sub_district" id="select_sub_district" required ng-model="user_data.sub_district_id">
+        <option value="" disabled>กรุณาเลือก</option>
+        <option ng-repeat="sub_district in sub_districts" value="{{sub_district.id}}" on-finish-render="ngRepeatFinishedSub_district">{{sub_district.sub_district_name}}</option>
+    </select>
+  <label >ตำบล</label>
+   <small class="red-text" ng-show="form_profile.select_sub_district.$error.required && hasSubmit">This field is required.</small>
+</div>

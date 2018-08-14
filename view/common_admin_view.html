@@ -1,0 +1,39 @@
+
+<!--Panel-->
+<div class="card text-center" ng-if="check_admin">
+  <div class="card-header default-color white-text">
+    เลือกข้อมูลผู้ใช้งาน
+  </div>
+  <div class="card-body text-left">
+    <!-- table -->
+     <table ui-jq="dataTable" ui-options="ajaxAllUserDataInfoOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_all_user_data_info_list">
+        <thead>
+          <tr>
+            <th>ชื่อ - สกุล</th>
+            <th>ชื่อผู้ใช้</th>            
+            <th>อีเมล์</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+          <!-- /table -->
+
+  </div>
+</div>
+<!--/.Panel-->
+
+<div class="row" ng-show="!check_admin&&(user_role_id==1||user_role_id==2||user_role_id==3)">
+<div class="col-xs-6 col-lg-6 text-left">
+    <button class="btn primary-color-dark waves-effect waves-light" ng-click="activeTab = 'tab1';clearData();showAdmin();">
+    <i class="fa fa-backward ml-1"></i>
+    กลับไปหน้าข้อมูลผู้ใช้งาน
+    </button>
+</div>
+    <div class="col-xs-6 col-lg-6 text-right">
+    <div class="chip chip-md cyan white-text m-x-10 m-0">
+       <i class="fa fa-user ml-1"></i> {{user_fullname}}
+    </div>
+    </div>
+</div>

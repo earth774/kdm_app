@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height"  ng-app="KDM">
+
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Agriconnect</title>
+
+        <!-- Font Awesome -->
+        <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="../assets/plugins/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.css" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design for Bootstrap -->
+        <link href="../assets/css/mdb.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+        <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+        <!-- DataTable -->
+        <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    </head>
+
+    <body  class="fixed-sn indigo-skin" ng-controller="DataFeederSoilCtrl" ng-init="CheckCookies();">
+
+        <!--Double navigation-->
+        <div id="side_menu" ng-controller="MenuCtrl" ng-include="'../common/menu.html'" ng-init="showMenu();"></div>
+        <main>
+        <!-- Form contact -->
+        <div class="container-fluid mt-5">
+            <form name="resource_view">
+                <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab2 == 'table'" ng-click="switchPage('form','tab2');">
+                      <i class="fa fa-plus"></i>
+                </a>
+                <div ng-if="page_tab2 == 'table'" ng-init="funcGetDataFeeder();" >
+                  <table ui-jq="dataTable" ui-options="ajaxDataFeederOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_feeder">
+                    <thead>
+                      <tr>
+                        <th>วันที่ เวลา</th>
+                        <th>ชื่อประเทศ</th>
+                        <th>ประเภทของดิน</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /page table -->
+                <div ng-if="page_tab2 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetAreaType();funcGetSoilType();">
+                  <div class="row justify-content-md-center">
+                    <div class="col-xs-12 col-xl-10">
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" id="date-format" class="form-control" data-dtp="dtp_YY17A" ng-model="dataFeederItem.data_datetime">
+                          <label for="date-format" class="control-label">วันที่/เวลา</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.gps_lat">
+                          <label class="">ละติจูด</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.gps_long">
+                          <label class="">ลองติจูด</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.city">
+                          <label class="">เมือง</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.country">
+                          <label class="">ประเทศ</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                            <select class="mdb-select colorful-select dropdown-primary" name="select_area_type" id="select_area_type" required ng-model="dataFeederItem.soil_area_type_id" >
+                                <option value="" disabled>กรุณาเลือก</option>
+                                <option ng-repeat="soil_area_type in soil_area_type_info" value="{{soil_area_type.id}}" on-finish-render="ngRepeatAreaFinished">{{soil_area_type.name}}</option>
+                            </select>
+                            <label>ประเภทพื้นที่</label>
+                            <small class="red-text" ng-show="resource_view.select_area_type.$error.required && hasSubmit">This field is required.</small>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                            <select class="mdb-select colorful-select dropdown-primary" name="select_soil_type" id="select_soil_type" required ng-model="dataFeederItem.soil_type_id" >
+                                <option value="" disabled>กรุณาเลือก</option>
+                                <option ng-repeat="soil_type in soil_type_info" value="{{soil_type.id}}" on-finish-render="ngRepeatSoilFinished">{{soil_type.name}}</option>
+                            </select>
+                            <label>ประเภทของดิน</label>
+                            <small class="red-text" ng-show="resource_view.select_soil_type.$error.required && hasSubmit">This field is required.</small>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.mineral_score">
+                          <label class="">คะแนนปริมาณแร่ธาตุอาหาร</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.crumbly_score">
+                          <label class="">คะแนนความร่วนซุย</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.ph_value">
+                          <label class="">ปริมาณความเป็นกรดเป็นด่าง (pH)</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" name="rain_qty_mmpm" ng-model="dataFeederItem.rain_qty_mmpm" required>
+                          <label class="">ปริมาณน้ำฝนต่อเดือน (mm)</label>
+                          <small class="red-text" ng-show="resource_view.rain_qty_mmpm.$error.required && hasSubmit">This field is required.</small>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.temp_celsius_max">
+                          <label class="">อุณหภูมิสูงสุดในรอบปี (Celsius)</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.temp_celsius_avg">
+                          <label class="">อุณหภูมิเฉลี่ยในรอบปี (Celsius)</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.temp_celsius_min">
+                          <label class="">อุณหภูมิต่ำสุดในรอบปี (Celsius)</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.sunlight_percent">
+                          <label class="">ปริมาณโดนแดดในตอนกลางวัน (%)</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.wind_speed">
+                          <label class="">ความแรงลมโดยเฉลี่ยต่อเดือน</label>
+                        </div>
+                        <!--  -->
+                        <div class="md-form">
+                          <input type="text" class="form-control" ng-model="dataFeederItem.wind_direction_degree">
+                          <label class="">ทิศทางลมโดยเฉลี่ยต่อเดือน</label>
+                        </div>
+                        <!--  -->
+                        <div class="text-center">
+                          <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table','tab2');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                          <button class="btn btn-success" ng-disabled="!!resource_view.$error.required && hasSubmit" ng-click="funcInsertDataFeederItem(dataFeederItem);"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                        </div>
+                    </div>
+                    <!-- /col-xs-12 col-xl-10 -->
+                  </div>
+                  <!-- /row -->
+                </div>
+                <!-- /page form -->
+            </form>
+        </div>
+        <!-- Modal weather info -->
+        <div ng-include="'../view/common_data_feeder_soil_modal.html'"></div>
+        <!-- Modal weather info -->
+        </main>
+        <!-- Form contact -->
+        <!--/.Double navigation-->
+        <!--Footer-->
+        <footer>
+        </footer>
+        <!--Footer-->
+
+        <!-- SCRIPTS -->
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+        <!-- Popper -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+        <!-- DataTable -->
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Angular -->
+        <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+        <!-- Plugins -->
+        <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+        <script type="text/javascript" src="../assets/plugins/moment/moment.min.js"></script>
+        <script type="text/javascript" src="../assets/plugins/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.min.js"></script>
+        <!-- ng-map -->
+       <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+       <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+       <!-- ng-file-upload -->
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+       <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+        <!-- MDB -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+        <!-- App -->
+        <script type="text/javascript" src="../js/core/app.js"></script>
+        <script type="text/javascript" src="../js/core/util.js"></script>
+        <script type="text/javascript" src="../js/common/menu.js"></script>
+        <script type="text/javascript" src="../js/app/data_feeder_soil.js"></script>
+
+        <script>
+            // Material Select Initialization
+            $(document).ready(function() {
+                $("p").text('ข้อมูลสภาพดิน');
+            });
+            new WOW().init();
+        </script>
+    </body>
+</html>

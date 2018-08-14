@@ -1,0 +1,77 @@
+<div ng-if="activeTab == 'tab3'" class="tab-pane fade" ng-class="{'in show active':activeTab == 'tab3'}" id="tab3" role="tabpanel" >
+    <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab3 == 'table'" ng-click="switchPage('form', 'tab3')">
+        <i class="fa fa-plus"></i>
+    </a>
+    <div ng-if="page_tab3 == 'table'" ng-init="funcGetInvestorHistoryByID();" >
+        <table ui-jq="dataTable" ui-options="ajaxInvestHistoryOptions" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%" id="table_data_investor_history">
+            <thead>
+                <tr>
+                    <th>รอบการเพาะปลูก</th>
+                    <th>จำนวนเงินลงทุน</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /page table -->
+    <div ng-if="page_tab3 == 'form'" class="col-xs-12 col-xl-10" ng-init="funcGetFarmerCorpInfo();">
+        <form name="form_investor_history">
+        <div class="row justify-content-md-center">
+            <div class="col-xs-12 col-xl-10">
+                <!--  -->
+                <div class="md-form">
+                    <select class="mdb-select colorful-select dropdown-primary" name="select_crop" id="select_crop_Investor" required ng-model="investHistoryItem.farmer_user_crop_id" >
+                        <option value="" disabled>กรุณาเลือก</option>
+                        <option ng-repeat="farmer_user_crop in farmer_user_crop_list" value="{{farmer_user_crop.id}}"
+                                on-finish-render="ngRepeatFinishedCrop">{{farmer_user_crop.name}}</option>
+                    </select>
+                    <label>รอบการเพาะปลูก</label>
+                    <small class="red-text" ng-show="form_investor_history.select_crop.$error.required && hasSubmit">This field is required.</small>
+                </div>
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investHistoryItem.invest_money">
+                    <label ng-class="{'active':investHistoryItem.invest_money}">เงินลงทุน</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control" ng-model="investHistoryItem.profit">
+                    <label ng-class="{'active':investHistoryItem.profit}">กำไร</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control datepicker" ng-model="investHistoryItem.start_datetime" id="start_datetime_invest">
+                    <label for="start_datetime_invest" ng-class="{'active' :investHistoryItem.start_datetime}">ระยะเวลาเริ่มต้นการลงทุน</label>
+                </div>
+                <!--  -->
+                <div class="md-form">
+                    <input type="text" class="form-control datepicker" ng-model="investHistoryItem.end_datetime" id="end_datetime_invest">
+                    <label for="end_datetime_invest" ng-class="{'active' :investHistoryItem.end_datetime}">ระยะเวลาสิ้นสุดการลงทุน</label>
+                </div>
+                <!--  -->
+                <div class="md-form form-inline">
+                    <div class="form-group">
+                        <input name="is_payback" type="radio" id="sel_payback" value="1" ng-model="investHistoryItem.is_payback">
+                        <label for="sel_payback">คืนทุนแล้ว </label>
+                    </div>
+
+                    <div class="form-group">
+                        <input name="is_payback" type="radio" id="sel_not_payback" value="0" ng-model="investHistoryItem.is_payback">
+                        <label for="sel_not_payback">ยังไม่คืนทุน </label>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="text-center">
+                    <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table', 'tab3');"><i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                    <button ng-disabled="!!form_investor_history.$error.required && hasSubmit" ng-show="!investHistoryItem.id" class="btn btn-success" ng-click="funcInsertInvestHistoryItem(!!form_investor_history.$error.required);hasSubmit=true"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                    <button ng-disabled="!!form_investor_history.$error.required && hasSubmit" ng-show="investHistoryItem.id" class="btn btn-success" ng-click="funcUpdateInvestHistoryItem(!!form_investor_history.$error.required);hasSubmit=true"><i class="fa fa-save ml-1"></i> บันทึก</button>
+                </div>
+            </div>
+            <!-- /col-xs-12 col-xl-10 -->
+        </div>
+        <!-- /row -->
+    </form>
+    </div>
+    <!-- /page form -->
+</div>

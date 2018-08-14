@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" class="full-height" ng-app="KDM">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Agriconnect</title>
+
+    <!-- Font Awesome -->
+    <link href="../assets/font/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design for Bootstrap -->
+    <link href="../assets/css/mdb.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/mdbDataTable.css" rel="stylesheet">
+    <link href="../assets/css/mdbMain.css" rel="stylesheet">
+
+    <!-- DataTable -->
+    <link href="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- select 2 -->
+    <link href="../assets/plugins/select2/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .p-0 {
+            padding: 0 !important;
+        }
+
+        .m-0 {
+            margin: 0 !important;
+        }
+
+        .color-cyan {
+            color: #00bcd4;
+        }
+    </style>
+</head>
+
+<body class="fixed-sn indigo-skin" ng-controller="ImporterCtrl" ng-init="CheckCookies();">
+
+    <!--Double navigation-->
+    <div id="side_menu" ng-include="'../common/menu.html'" ng-controller="MenuCtrl" ng-init="showMenu(); funcCheckUserRole();"></div>
+    <main>
+        <!-- Form contact -->
+        <div class="container-fluid">
+            <!-- <form name="resource_view"> -->
+            <div ng-include="'../view/common_admin_view.html'"></div>
+            <!-- =========================== -->
+            <div ng-if="!check_admin">
+                <!-- เพิ่มเติม ng-if="!check_admin" check_admin -->
+                <div class="tabs-wrapper">
+                    <ul class="nav classic-tabs tabs-cyan" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" ng-class="{'active':activeTab == 'tab1'}" href="#tab1" role="tab" ng-click="funcSwitchTab('tab1'); clearData()">
+                                ข้อมูลส่วนตัว
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-light" ng-class="{'active':activeTab == 'tab2'}" href="#tab2" role="tab" ng-click="funcSwitchTab('tab2'); clearData()">
+                                ข้อมูลการนำเข้า
+                            </a>
+                        </li>
+                        <li class="nav-item">
+
+                    </ul>
+                </div>
+                <!-- /tabs-wrapper -->
+                <div class="tab-content card mb-5">
+                    <div ng-if="activeTab == 'tab1'" class="tab-pane fade " ng-class="{'in show active':activeTab == 'tab1'}" ng-init="funcGetImporterByID();">
+                        <form name="form_profile">
+                            <div class="row justify-content-md-center">
+                                <div class="col-xs-12 col-xl-10">
+
+                                    <div class="md-form form-inline">
+                                        <div class="form-group">
+                                            <input name="is_corporate" type="radio" id="sel_minor" value="0" ng-model="user_data.is_corporate" ng-click="user_data.corporate_type_id = '1'">
+                                            <label for="sel_minor">รายย่อย </label>
+                                        </div>
+
+                                        <div class="form-group" ng-if="user_role_id <= 4">
+                                            <input name="is_corporate" type="radio" id="sel_corporate" value="1" ng-model="user_data.is_corporate">
+                                            <label for="sel_corporate">นิติบุคคล</label>
+                                        </div>
+
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form form-inline" ng-show="user_data.is_corporate == '1'">
+                                        <div class="form-group">
+                                            <input name="sub_type" type="radio" id="company" value="1" ng-model="user_data.corporate_type_id">
+                                            <label for="company">บริษัท</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input name="sub_type" type="radio" id="cooperative" value="2" ng-model="user_data.corporate_type_id">
+                                            <label for="cooperative">สหกรณ์</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="sub_type" type="radio" id="community" value="3" ng-model="user_data.corporate_type_id">
+                                            <label for="community">วิสาหกิจชุมชน</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="sub_type" type="radio" id="other" value="4" ng-model="user_data.corporate_type_id">
+                                            <label for="other">อื่นๆ</label>
+                                        </div>
+
+                                    </div>
+                                    <!-- +++++++++++++ end radio button++++++++++++++++ -->
+                                    <div class="mt-5" ng-switch="user_data.is_corporate">
+                                        <div ng-switch-when="0">
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.name" id="name" name="name" required>
+                                                <label for="tax_id" ng-class="{'active':user_data.name}">ชื่อ</label>
+                                                <small class="red-text" ng-show="form_profile.name.$error.required && hasSubmit">This field is required.</small>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.surname" id="surname" name="surname" required>
+                                                <label for="tax_id" ng-class="{'active':user_data.surname}">สกุล</label>
+                                                <small class="red-text" ng-show="form_profile.surname.$error.required && hasSubmit">This field is required.</small>
+                                            </div>
+
+                                            <div class="md-form form-inline">
+                                                <div class="form-group">
+                                                    <input name="type_gender" type="radio" id="sel_male" value="1" ng-model="user_data.gender_id">
+                                                    <label for="sel_male">ชาย </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="type_gender" type="radio" id="sel_female" value="2" ng-model="user_data.gender_id">
+                                                    <label for="sel_female">หญิง </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="md-form" ng-if="user_role_id <= 4">
+                                                <input type="text" class="form-control" ng-model="user_data.tax_id" id="tax_id">
+                                                <label for="tax_id" ng-class="{'active':user_data.tax_id}">หมายเลขบัตรประชาชน</label>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.age" empty-to-null id="age" name="age" maxlength="3" ng-pattern="/^[0-9]{1,3}$/"
+                                                    ng-maxlength="3">
+                                                <label for="age" ng-class="{'active': user_data.age}">อายุ</label>
+                                                <span class="red-text" ng-show=" !form_profile.age.$valid && hasSubmit">กรุณาระบุ อายุให้ถูกต้อง</span>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.house_number" id="house_number" maxlength="255">
+                                                <label for="house_number" ng-class="{'active':user_data.house_number}">บ้านเลขที่</label>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.village" id="village" maxlength="255">
+                                                <label for="village" ng-class="{'active':user_data.village}">หมู่บ้าน</label>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.village_number" id="village_number" maxlength="255">
+                                                <label for="village_number" ng-class="{'active':user_data.village_number}">หมู่</label>
+                                            </div>
+
+                                            <div class="md-form">
+                                                <input type="text" class="form-control" ng-model="user_data.alley" id="alley" maxlength="255">
+                                                <label for="alley" ng-class="{'active':user_data.alley}">ซอย</label>
+                                            </div>
+
+                                        </div>
+                                        <!--  -->
+                                        <div ng-switch-when="1">
+
+
+                                            <div ng-if="user_data.corporate_type_id == '1'">
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_name" id="company_name">
+                                                    <label for="company_name" ng-class="{'active':user_data.corp_name}">ชื่อบริษัท</label>
+                                                </div>
+                                                <!-- + -->
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.tax_id" id="tax_id">
+                                                    <label for="tax_id" ng-class="{'active':user_data.tax_id}">หมายเลขผู้เสียภาษี</label>
+                                                </div>
+                                                <!-- + -->
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.registered_capital" id="cost_regis">
+                                                    <label for="cost_regis" ng-class="{'active':user_data.registered_capital}">ทุนจดลงทะเบียน</label>
+                                                </div>
+                                                <!-- + -->
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_number_member" id="num_emp">
+                                                    <label for="num_emp" ng-class="{'active':user_data.corp_number_member}">จำนวนพนักงาน</label>
+                                                </div>
+                                            </div>
+                                            <!-- ++++++ -->
+                                            <div ng-if="user_data.corporate_type_id != 1">
+                                                <div class="md-form" ng-if="user_data.corporate_type_id == 2">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_name" id="cooperat_name">
+                                                    <label for="cooperat_name" ng-class="{'active':user_data.corp_name}">ชื่อสหกรณ์</label>
+                                                </div>
+                                                <!-- // -->
+                                                <div class="md-form" ng-if="user_data.corporate_type_id == 3">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_name" id="communityEnt_name">
+                                                    <label for="communityEnt_name" ng-class="{'active':user_data.corp_name}">ชื่อวิสาหกิจชุมชน</label>
+                                                </div>
+                                                <!-- // -->
+                                                <div class="md-form" ng-if="user_data.corporate_type_id == 4">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_name" id="company_name">
+                                                    <label for="company_name" ng-class="{'active':user_data.corp_name}">ชื่อนิติบุคคล</label>
+                                                </div>
+
+                                                <!-- + -->
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_number" id="regis_number">
+                                                    <label for="regis_number" ng-class="{'active':user_data.corp_number}">หมายเลขลงทะเบียน</label>
+                                                </div>
+                                                <!-- + -->
+                                                <div class="md-form">
+                                                    <input type="text" class="form-control" ng-model="user_data.corp_number_member" id="num_member">
+                                                    <label for="num_member" ng-class="{'active':user_data.corp_number_member}">จำนวนสมาชิก</label>
+                                                </div>
+                                                <!-- + -->
+
+                                            </div>
+                                            <!-- ++++++ -->
+
+                                        </div>
+                                    </div>
+                                    <!-- /switch user_data.is_corporate -->
+                                    <!--   PROVINCE DISTRICT SUBDISTRICT -->
+                                    <div ng-include="'../view/common_address_select.html'"></div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <textarea class="md-textarea" ng-model="user_data.address" rows="2"></textarea>
+                                        <label ng-class="{'active':user_data.address}">ที่อยู่</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="user_data.zipcode">
+                                        <label ng-class="{'active':user_data.zipcode}">รหัสไปรษณีย์</label>
+                                    </div>
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="user_data.phone" name="phone" required>
+                                        <label ng-class="{'active':user_data.phone}">เบอร์โทรศัพท์</label>
+                                        <small class="red-text" ng-show="form_profile.phone.$error.required && hasSubmit">This field is required.</small>
+                                    </div>
+
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="user_data.email">
+                                        <label ng-class="{'active':user_data.email}">อีเมล์</label>
+                                    </div>
+
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="user_data.gps_lat" placeholder="เลื่อนมุดบนแผนที่" disabled>
+                                        <label class="active">ละติจูด</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="user_data.gps_long" placeholder="เลื่อนมุดบนแผนที่" disabled>
+                                        <label class="active">ลองติจูด</label>
+                                    </div>
+                                    <!-- ค้นหา -->
+
+                                    <div class="row">
+
+                                        <!--Grid column-->
+                                        <div class="col-sm-12 col-lg-10">
+                                            <div class=" md-form form-sm mt-5">
+                                                <i class="fa fa-search prefix"></i>
+                                                <input type="text" class="form-control" ng-model="address" placeholder="กรอกจังหวัด/อำเภอ/ตำบล/ หรือ ละติจูด,ลองติจูด">
+                                                <label class="active">ค้นหาที่อยู่</label>
+                                            </div>
+                                        </div>
+                                        <!--Grid column-->
+
+                                        <!--Grid column-->
+                                        <div class="col-sm-12 col-lg-2 text-center">
+                                            <div class="md-form">
+                                                <div class="md-form">
+                                                    <button type="button" style="margin-top: 2.5rem;" class="btn btn-primary" ng-click="search_address=address" title="ค้นหา">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Grid column-->
+
+                                    </div>
+                                    <!-- แผนที่ -->
+
+                                    <div class="col-md-12 ">
+                                        <!-- insert ใหม่ -->
+                                        <ng-map ng-if="!user_data.id" zoom="13" center="{{search_address}}" center='{{[user_data.gps_lat,user_data.gps_long]}}' map-type-id="MapTypeId.ROADMAP">
+                                            <marker position="{{search_address}}" on-dragend="getCurrentlocation()" animation="DROP" draggable="true" animation="Animation.BOUNCE"
+                                                centered="true"></marker>
+                                        </ng-map>
+                                        <!-- update -->
+                                        <ng-map ng-if="user_data.id" center="[{{search_address}}]" zoom="13" center='{{[user_data.gps_lat,user_data.gps_long]}}'
+                                            map-type-id="MapTypeId.ROADMAP">
+                                            <marker position="{{search_address}}" position="{{[user_data.gps_lat,user_data.gps_long]}}" on-dragend="getCurrentlocation()"
+                                                animation="DROP" draggable="true" animation="Animation.BOUNCE" centered="true"></marker>
+                                        </ng-map>
+
+                                        <label>{{user_data.location_remark}}</label>
+                                    </div>
+
+                                    <!--  -->
+
+
+                                    <!--  -->
+                                    <div class="text-center mt-3">
+                                        <button ng-disabled="!!form_profile.$error.required && hasSubmit" ng-show="!user_data.id" class="btn btn-success" ng-click="funcInsertImporter(!!form_profile.$error.required);hasSubmit = true;">
+                                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                                        <button ng-disabled="!!form_profile.$error.required && hasSubmit" ng-show="user_data.id" class="btn btn-success" ng-click="funcUpdateImporter(!!form_profile.$error.required);hasSubmit = true;">
+                                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                                    </div>
+
+                                </div>
+                                <!-- grid col-xs-12 col-xl-10 -->
+                            </div>
+                            <!-- /row -->
+                        </form>
+                    </div>
+                    <!-- /tab-pane personal Information tab1-->
+
+                    <!-- ++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+                    <div ng-if="activeTab == 'tab2'" class="tab-pane fade " ng-class="{'in show active':activeTab == 'tab2'}">
+                        <div class="row justify-content-md-center">
+
+                            <div ng-if="page_tab2 == 'table'" class="col-xs-12 col-xl-12" ng-init="funcGetBuyingItemByID()">
+                                <a class="btn-floating btn-lg success-color pull-right" ng-show="page_tab2 == 'table'" ng-click="switchPage('form')">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <!-- table -->
+                                <table ui-jq="dataTable" ui-options="ajaxImportOptions" class="table table-striped table-bordered table-responsive" cellspacing="0"
+                                    width="100%" id="table_data_import">
+                                    <thead>
+                                        <tr>
+                                            <th>ผลผลิต</th>
+                                            <th>ปริมาณ</th>
+                                            <th>ราคา</th>
+                                            <th>วันที่</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <!-- /table -->
+
+                            </div>
+                            <!-- /col-xs-12 col-xl-10 table-->
+
+                            <div ng-if="page_tab2 == 'form'" class="col-xs-12 col-xl-10" ng-init="getCountry(); funcGetProductInfo(); funcGetManufacProductInfo(); getImportCostType();">
+                                <form name="form_import">
+
+
+                                    <div class="md-form form-inline mb-5">
+                                        <div class="form-group">
+                                            <input name="is_product_0" type="radio" id="sel_product_0" value="0" ng-model="dataimport.is_product" ng-click="dataimport.manufacturer_product_info_id=0;  dataimport.manufacturer_product_info_explanation=''; unit_product=null">
+                                            <label for="sel_product_0">ผลผลิต </label>
+                                        </div>
+                                        <div class="form-group" ng-if="user_role_id <= 4">
+                                            <input name="is_product_1" type="radio" id="sel_product_1" value="1" ng-model="dataimport.is_product" ng-click="dataimport.product_info_id=0; dataimport.product_info_explanation=''; unit_product=null">
+                                            <label for="sel_product_1">ผลิตภัณฑ์</label>
+                                        </div>
+
+                                    </div>
+                                    <!-- +++++++++++++ end radio button++++++++++++++++ -->
+
+                                    <!-- start select 2 -->
+                                    <!-- for set select value -->
+                                    <!-- old code -->
+                                    <div class="md-form" style="display: none;" ng-if="dataimport.is_product == '0'" 
+                                        ng-init="initSelect2(); findUnit(product_info,dataimport.product_info_id,'ผลผลิต'); funcGetProductInfo();">
+                                        <select class="mdb-select colorful-select dropdown-primary" 
+                                                name="select_product_buying" id="select_product_buying" 
+                                                required ng-model="dataimport.product_info_id" 
+                                                ng-change="findUnit(product_info,dataimport.product_info_id,'ผลผลิต');">
+                                            <option value="" disabled>กรุณาเลือก</option>
+                                            <option ng-repeat="product in product_info" 
+                                                    value="{{product.id}}" 
+                                                    on-finish-render="ngRepeatFinished"
+                                                    >{{product.name}}
+                                            </option>
+                                        </select>
+                                        <label>ชื่อผลผลิต</label>
+                                        <small class="red-text" ng-show="!dataimport.product_info_id && hasSubmit">This field is required.</small>
+                                    </div>
+                                    <!-- old code -->
+
+                                    <!-- for show select 2 -->
+                                    <label style="color: #757575; font-size: 0.8rem;" ng-hide="dataimport.is_product != '0'">ชื่อผลผลิต</label>
+                                    <div class="md-form" ng-hide="dataimport.is_product != '0'" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                                        <select class="mdb-select-2 colorful-select dropdown-primary" id="select_product_buying_select2_show">
+                                            <option value="">กรุณาเลือก</option>
+                                            <option ng-repeat="product in product_info" 
+                                                    value="{{product.id}}" 
+                                                    on-finish-render="ngRepeatFinished"
+                                                    ng-selected="product.id == dataimport.product_info_id"
+                                                    >{{product.name}}
+                                            </option>
+                                        </select>
+                                        <small class="red-text" ng-show="!dataimport.product_info_id && hasSubmit">This field is required.</small>
+                                    </div>
+                                    <!-- end select 2 -->
+
+                                    <div class="md-form" ng-show="dataimport.product_info_id == '0' && dataimport.is_product == '0'">
+                                        <input type="text"  name="product_info_explanation" 
+                                                            id="product_info_explanation"
+                                                            class="form-control" 
+                                                            ng-model="dataimport.product_info_explanation" 
+                                                            value="{{ dataimport.product_info_explanation }}"
+                                                            ng-required="dataimport.product_info_id == '0' && dataimport.is_product == '0'">
+                                        <label for="product_info_explanation" ng-class="{'active': dataimport.product_info_explanation}">
+                                            ระบุชื่อผลผลิต
+                                        </label>
+                                        <small class="red-text" ng-show="!dataimport.product_info_explanation && hasSubmit">This field is required.</small>
+                                    </div>
+
+                                    <!-- start select 2 -->
+                                    <!-- for set select value -->
+                                    <!-- old code -->
+                                    <div class="md-form" style="display: none;" ng-if="dataimport.is_product == '1'" 
+                                        ng-init="initSelect2(); findUnit(manufac_product_info,dataimport.manufacturer_product_info_id,'ผลิตภัณฑ'); funcGetManufacProductInfo();">
+                                        <select class="mdb-select colorful-select dropdown-primary" 
+                                                name="select_product_fac" id="select_product_fac" 
+                                                required 
+                                                ng-model="dataimport.manufacturer_product_info_id" 
+                                                ng-change="findUnit(manufac_product_info,dataimport.manufacturer_product_info_id,'ผลิตภัณฑ');">
+                                            <option value="" disabled>กรุณาเลือก</option>
+                                            <option ng-repeat="product in manufac_product_info" value="{{product.id}}" on-finish-render="ngRepeatFinished">{{product.product_name}}</option>
+                                        </select>
+                                        <label>ชื่อผลิตภัณฑ์</label>
+                                        <small class="red-text" ng-show="!dataimport.manufacturer_product_info_id && hasSubmit">This field is required.</small>
+                                    </div>
+                                   <!-- old code -->
+
+                                    <!-- for show select 2 -->
+                                    <label style="color: #757575; font-size: 0.8rem;" ng-hide="dataimport.is_product != '1'">ชื่อผลิตภัณฑ์</label>
+                                    <div class="md-form" ng-hide="dataimport.is_product != '1'" style="border-bottom: 1px solid #bdbdbd; padding-bottom: 5px; margin-bottom: 1.5rem">
+                                        <select class="mdb-select-2 colorful-select dropdown-primary" id="select_product_fac_select2_show">
+                                            <option value="">กรุณาเลือก</option>
+                                            <option ng-repeat="product in manufac_product_info" 
+                                                    value="{{product.id}}" 
+                                                    on-finish-render="ngRepeatFinished"
+                                                    ng-selected="product.id == dataimport.manufacturer_product_info_id"
+                                                    >{{product.product_name}}
+                                            </option>
+                                        </select>
+                                        <small class="red-text" ng-show="!dataimport.manufacturer_product_info_id && hasSubmit">This field is required.</small>
+                                    </div>
+                                    <!-- end select 2 -->
+
+                                    <div class="md-form" ng-show="dataimport.manufacturer_product_info_id == '0' && dataimport.is_product == '1'">
+                                        <input type="text"  name="manufacturer_product_info_explanation" 
+                                                            id="manufacturer_product_info_explanation"
+                                                            class="form-control" 
+                                                            ng-model="dataimport.manufacturer_product_info_explanation" 
+                                                            value="{{ dataimport.manufacturer_product_info_explanation }}"
+                                                            ng-required="dataimport.manufacturer_product_info_id == '0' && dataimport.is_product == '1'">
+                                        <label for="manufacturer_product_info_explanation" ng-class="{'active': dataimport.manufacturer_product_info_explanation}">
+                                            ระบุชื่อผลผลิต
+                                        </label>
+                                        <small class="red-text" ng-show="!dataimport.manufacturer_product_info_explanation && hasSubmit">This field is required.</small>
+                                    </div>
+
+
+                                    <div class="md-form">
+
+                                        <input type="text" class="form-control" ng-model="dataimport.qty">
+                                        <label ng-class="{'active':dataimport.qty}">ปริมาณ ({{unit_product}})</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.price">
+                                        <label ng-class="{'active':dataimport.price}">ราคาที่รับซื้อ</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input ng-model="dataimport.import_datetime" type="text" id="date-picker-example" class="form-control datepicker" format-submit:
+                                            'yyyy-mm-dd'>
+                                        <!-- data-value="2017-10-10 00:00:00" -->
+                                        <label for="date-picker-example" ng-class="{'active':dataimport.import_datetime}">วันที่นำเข้า</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.transport_day">
+                                        <label ng-class="{'active':dataimport.transport_day}">ระยะเวลาการขนส่ง (วัน)</label>
+                                    </div>
+                                    <!--  -->
+
+                                    <p class="h5 mt-5 mb-4 color-cyan">ต้นทุน</p>
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.transport_cost">
+                                        <label ng-class="{'active':dataimport.transport_cost}">ค่าขนส่ง</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.tax">
+                                        <label ng-class="{'active':dataimport.tax}">ภาษีนำเข้า</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.operation_cost">
+                                        <label ng-class="{'active':dataimport.operation_cost}">ค่าติดต่อประสานงาน</label>
+                                    </div>
+                                    <!--  -->
+
+
+                                    <p class="h5 mt-5 mb-4 color-cyan">ต้นทาง</p>
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.soruce_name">
+                                        <label ng-class="{'active':dataimport.soruce_name}">ชื่อผู้ขายต้นทาง</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <textarea class="md-textarea" ng-model="dataimport.source_address" rows="2"></textarea>
+
+                                        <label ng-class="{'active':dataimport.source_address}">ที่อยู่ผู้ขายต้นทาง</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <select class="mdb-select colorful-select dropdown-primary" name="select_country" required id="select_country" ng-model="dataimport.source_country_id">
+                                            <option value="" disabled>กรุณาเลือก</option>
+                                            <option ng-repeat="country in countrys" value="{{country.id}}" on-finish-render="ngRepeatFinished">{{country.name}}</option>
+                                        </select>
+
+                                        <label>ประเทศผู้ขายต้นทาง</label>
+                                        <small class="red-text" ng-show="form_import.select_country.$error.required && hasSubmit">This field is required.</small>
+                                    </div>
+
+                                    <p class="h5 mt-5 mb-4 color-cyan">ปลายทาง</p>
+
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.dest_name">
+                                        <label ng-class="{'active':dataimport.dest_name}">ชื่อผู้รับปลายทาง</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <textarea class="md-textarea" ng-model="dataimport.dest_address" rows="2"></textarea>
+                                        <label ng-class="{'active':dataimport.dest_address}">สถานที่รับปลายทาง</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.dest_phone">
+                                        <label ng-class="{'active':dataimport.dest_phone}">เบอร์ติดต่อ</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <select class="mdb-select colorful-select dropdown-primary" name="select_import_cost_type_id" required id="select_import_cost_type_id"
+                                            ng-model="dataimport.import_cost_type_id">
+                                            <option value="" disabled>กรุณาเลือก</option>
+                                            <option ng-repeat="type in import_cost_type" value="{{type.id}}">{{type.name}}</option>
+                                        </select>
+
+                                        <label>ประเภทค่าขนส่ง</label>
+                                        <small class="red-text" ng-show="form_import.select_import_cost_type_id.$error.required && hasSubmit">This field is required.</small>
+                                    </div>
+                                    <!--  -->
+
+                                    <p class="h5 mt-5 mb-4 color-cyan">ข้อมูลสิ่งที่สูญเสีย</p>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.loss_qty">
+                                        <label ng-class="{'active':dataimport.loss_qty}">ปริมาณสูญเสีย</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.loss_cause">
+                                        <label ng-class="{'active':dataimport.loss_cause}">สาเหตุการสูญเสีย</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.transport_delay_day">
+                                        <label ng-class="{'active':dataimport.transport_delay_day}">ระยะเวลาดีเลย์ของการขนส่ง (วัน)</label>
+                                    </div>
+                                    <!--  -->
+
+                                    <p class="h5 mt-5 mb-4 color-cyan">อัตราแลกเปลี่ยน</p>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.exchange_rate">
+                                        <label ng-class="{'active':dataimport.exchange_rate}">อัตราแลกเปลี่ยน</label>
+                                    </div>
+                                    <!--  -->
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.currency_unit">
+                                        <label ng-class="{'active':dataimport.currency_unit}">สกลุเงิน</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.hs_code">
+                                        <label ng-class="{'active':dataimport.hs_code}">พิกัดภาษี</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <input type="text" class="form-control" ng-model="dataimport.warehouse_cost">
+                                        <label ng-class="{'active':dataimport.warehouse_cost}">ค่าโกดัง</label>
+                                    </div>
+
+
+                                    <div class="text-center">
+                                        <button class="btn primary-color-dark waves-effect waves-light" ng-click="switchPage('table');">
+                                            <i class="fa fa-backward ml-1"></i> ย้อนกลับ</button>
+                                        <button ng-disabled="!!form_import.$error.required && hasSubmit" ng-show="!dataimport.id" class="btn btn-success" ng-click="funcInsertImportItem(!!form_import.$error.required);hasSubmit=true">
+                                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                                        <button ng-disabled="!!form_import.$error.required && hasSubmit" ng-show="dataimport.id" class="btn btn-success" ng-click="funcUpdateImportItem(!!form_import.$error.required);hasSubmit=true">
+                                            <i class="fa fa-save ml-1"></i> บันทึก</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /col-xs-12 col-xl-10 form-->
+
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /tab-pane Import data tab2-->
+                </div>
+                <!-- /tab-content -->
+                <!-- =========================== -->
+            </div>
+
+            <!-- </form> -->
+        </div>
+        <!-- ==============modal============= -->
+
+        <!-- Modal Conferm Delete-->
+        <div ng-include="'../view/common_modal_confirm_delete.html'"></div>
+        <div ng-include="'../view/common_modal_confirm_delete_v2.html'"></div>
+
+    </main>
+    <!-- Form contact -->
+
+    <!--/.Double navigation-->
+    <!--Footer-->
+    <footer>
+    </footer>
+    <!--Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- jQuery -->
+    <script type="text/javascript" src="../assets/js/jquery-3.2.1.min.js"></script>
+
+    <!-- Popper -->
+    <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+
+    <!-- DataTable -->
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/jquery-dataTable/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Angular -->
+    <script type="text/javascript" src="../assets/js/angular.min.js"></script>
+
+    <!-- select 2 -->
+    <script src="../assets/plugins/select2/select2.min.js"></script>
+
+    <!-- Plugins -->
+    <script type="text/javascript" src="../assets/plugins/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-ui-utils/angular-ui-utils.min.js"></script>
+    <script type="text/javascript" src="../assets/plugins/angular-cookies/angular-cookies.js"></script>
+    <!-- ng-map -->
+    <script type="text/javascript" src='https://maps.google.com/maps/api/js?key=AIzaSyC_IwxSuBw5e6Pr1gehAM_LVFFBUfdZHus&sensor=true&libraries=places&language=th'></script>
+    <script type="text/javascript" src="../assets/node_modules/ngmap/build/scripts/ng-map.min.js"></script>
+    <!-- ng-file-upload -->
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+    <script src="../assets/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+
+    <!-- App -->
+    <script type="text/javascript" src="../js/core/app.js"></script>
+    <script type="text/javascript" src="../js/core/util.js"></script>
+    <script type="text/javascript" src="../js/common/menu.js"></script>
+    <script type="text/javascript" src="../js/app/importer_menu.js"></script>
+    <script>
+        // Material Select Initialization
+        $(document).ready(function () {
+            $("p").text('ผู้นำเข้า');
+        });
+        new WOW().init();
+    </script>
+</body>
+
+</html>
